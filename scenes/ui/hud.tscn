@@ -1,0 +1,141 @@
+[gd_scene load_steps=7 format=3 uid="uid://chud01234567"]
+
+[ext_resource type="Script" path="res://scripts/hud.gd" id="1_hud"]
+[ext_resource type="Texture2D" path="res://assets/sprites/pickups/coin_paperclip.png" id="2_coin_icon"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xp_bg"]
+bg_color = Color(0.1, 0.1, 0.12, 0.9)
+border_width_top = 2
+border_color = Color(0.05, 0.05, 0.05, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xp_fill"]
+bg_color = Color(0.98, 0.72, 0.12, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_speed_btn"]
+bg_color = Color(0.15, 0.14, 0.12, 0.85)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.6, 0.55, 0.45, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="LabelSettings" id="LabelSettings_doodle"]
+font_size = 20
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_fps"]
+font_size = 18
+font_color = Color(0.4, 1, 0.5, 1)
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_hud")
+
+[node name="TopContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 60.0
+grow_horizontal = 2
+
+[node name="LevelLabel" type="Label" parent="TopContainer"]
+layout_mode = 1
+offset_left = 25.0
+offset_top = 18.0
+offset_right = 160.0
+offset_bottom = 46.0
+text = "SEVİYE 1"
+label_settings = SubResource("LabelSettings_doodle")
+
+[node name="TimerLabel" type="Label" parent="TopContainer"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -60.0
+offset_top = 18.0
+offset_right = 60.0
+offset_bottom = 46.0
+grow_horizontal = 2
+text = "00:00"
+label_settings = SubResource("LabelSettings_doodle")
+horizontal_alignment = 1
+
+[node name="CoinContainer" type="HBoxContainer" parent="TopContainer"]
+layout_mode = 1
+offset_left = 180.0
+offset_top = 16.0
+offset_right = 320.0
+offset_bottom = 48.0
+theme_override_constants/separation = 6
+alignment = 0
+
+[node name="CoinIcon" type="TextureRect" parent="TopContainer/CoinContainer"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+texture = ExtResource("2_coin_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CoinLabel" type="Label" parent="TopContainer/CoinContainer"]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_doodle")
+
+[node name="SpeedButton" type="Button" parent="TopContainer"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -275.0
+offset_top = 16.0
+offset_right = -160.0
+offset_bottom = 48.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_speed_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_speed_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_speed_btn")
+text = "HIZ: 1x (TAB)"
+
+[node name="FPSLabel" type="Label" parent="TopContainer"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -140.0
+offset_top = 18.0
+offset_right = -25.0
+offset_bottom = 46.0
+grow_horizontal = 0
+text = "FPS: 60"
+label_settings = SubResource("LabelSettings_fps")
+horizontal_alignment = 2
+
+[node name="BottomContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -22.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="XPBar" type="ProgressBar" parent="BottomContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_xp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_xp_fill")
+value = 0.0
+show_percentage = false

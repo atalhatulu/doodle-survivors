@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://cweaponsword01"]
+
+[ext_resource type="Script" path="res://scripts/weapon_ranged.gd" id="1_ranged"]
+[ext_resource type="Texture2D" path="res://assets/sprites/weapons/weapon_sword.png" id="2_tex"]
+[ext_resource type="PackedScene" uid="uid://cprojsword01" path="res://scenes/weapons/proj_sword.tscn" id="3_sword"]
+
+[node name="WeaponSword" type="Node2D"]
+script = ExtResource("1_ranged")
+weapon_id = "weapon_sword"
+fire_rate = 0.75
+bullet_scene = ExtResource("3_sword")
+range_radius = 420.0
+damage = 32.0
+targeting_mode = "MOVEMENT_DIR"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(15, 0)
+rotation = 0.785398
+scale = Vector2(0.28, 0.28)
+texture = ExtResource("2_tex")
+
+[node name="Muzzle" type="Marker2D" parent="Sprite2D"]
+position = Vector2(20, -20)

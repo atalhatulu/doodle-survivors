@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cprojorb01"]
+
+[ext_resource type="Script" path="res://scripts/bullet.gd" id="1_bullet"]
+[ext_resource type="Texture2D" path="res://assets/sprites/weapons/proj_orb.png" id="2_tex"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_orb"]
+radius = 14.0
+
+[node name="BulletOrb" type="Area2D"]
+script = ExtResource("1_bullet")
+speed = 520.0
+damage = 42.0
+spin_speed = 6.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_orb")

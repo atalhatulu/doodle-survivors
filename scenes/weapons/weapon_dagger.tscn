@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://c8mfgnaw48lue"]
+
+[ext_resource type="Script" path="res://scripts/weapon_ranged.gd" id="1_ranged"]
+[ext_resource type="Texture2D" path="res://assets/sprites/weapons/weapon_dagger.png" id="2_tex"]
+[ext_resource type="PackedScene" uid="uid://cprojdagger01" path="res://scenes/weapons/proj_dagger.tscn" id="3_bullet"]
+
+[node name="WeaponDagger" type="Node2D"]
+script = ExtResource("1_ranged")
+weapon_id = "weapon_dagger"
+fire_rate = 0.35
+bullet_scene = ExtResource("3_bullet")
+range_radius = 350.0
+damage = 18.0
+targeting_mode = "CLOSEST"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(22, 0)
+rotation = 0.785398
+scale = Vector2(0.28, 0.28)
+texture = ExtResource("2_tex")
+
+[node name="Muzzle" type="Marker2D" parent="Sprite2D"]
+position = Vector2(25, -25)

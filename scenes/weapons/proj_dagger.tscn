@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cprojdagger01"]
+
+[ext_resource type="Script" path="res://scripts/bullet.gd" id="1_bullet"]
+[ext_resource type="Texture2D" path="res://assets/sprites/weapons/proj_dagger.png" id="2_tex"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dag"]
+radius = 6.0
+height = 32.0
+
+[node name="BulletDagger" type="Area2D"]
+script = ExtResource("1_bullet")
+speed = 850.0
+damage = 20.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.18, 0.18)
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_dag")

@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cweaponaxe01"]
+
+[ext_resource type="Script" path="res://scripts/weapon_axe_thrower.gd" id="1_axe"]
+[ext_resource type="Texture2D" path="res://assets/sprites/weapons/weapon_axe.png" id="2_tex"]
+
+[node name="WeaponAxe" type="Node2D"]
+script = ExtResource("1_axe")
+fire_rate = 1.1
+damage = 50.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 0)
+scale = Vector2(0.32, 0.32)
+texture = ExtResource("2_tex")

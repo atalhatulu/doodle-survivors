@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://dworld0123456"]
+
+[ext_resource type="PackedScene" uid="uid://c6j2q5q4n6w6x" path="res://scenes/player/player.tscn" id="1_player"]
+[ext_resource type="Script" uid="uid://c1ejunqe7r7de" path="res://scripts/chunk_manager.gd" id="2_chunk"]
+[ext_resource type="Script" uid="uid://bo6jmu7vud75o" path="res://scripts/enemy_spawner.gd" id="3_spawner"]
+[ext_resource type="PackedScene" uid="uid://chud01234567" path="res://scenes/ui/hud.tscn" id="4_hud"]
+[ext_resource type="PackedScene" uid="uid://clevelup0123" path="res://scenes/ui/level_up_menu.tscn" id="5_levelup"]
+[ext_resource type="PackedScene" uid="uid://cinvmenu0123" path="res://scenes/ui/inventory_menu.tscn" id="6_inv"]
+[ext_resource type="Script" uid="uid://bk2q2wuvohx22" path="res://scripts/game_manager.gd" id="7_manager"]
+[ext_resource type="PackedScene" uid="uid://js4unemp03o7" path="res://scenes/ui/game_over_menu.tscn" id="8_over"]
+
+[node name="Main" type="Node2D" unique_id=1756506881]
+script = ExtResource("7_manager")
+
+[node name="HUD" parent="." unique_id=1540232249 instance=ExtResource("4_hud")]
+
+[node name="LevelUpMenu" parent="." unique_id=2064953331 instance=ExtResource("5_levelup")]
+
+[node name="InventoryMenu" parent="." unique_id=545705685 instance=ExtResource("6_inv")]
+
+[node name="GameOverMenu" parent="." unique_id=910550032 instance=ExtResource("8_over")]
+
+[node name="ChunkManager" type="Node2D" parent="." unique_id=1710516898]
+y_sort_enabled = true
+script = ExtResource("2_chunk")
+
+[node name="EnemySpawner" type="Node2D" parent="." unique_id=1747583131]
+script = ExtResource("3_spawner")
+
+[node name="YSortEntities" type="Node2D" parent="." unique_id=2096079181]
+y_sort_enabled = true
+
+[node name="Player" parent="YSortEntities" unique_id=1192869576 instance=ExtResource("1_player")]

@@ -1,0 +1,166 @@
+[gd_scene format=3 uid="uid://cmainmenu0123"]
+
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_menu"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/parchment_bg.png" id="2_parch"]
+[ext_resource type="Texture2D" path="res://assets/sprites/pickups/coin_paperclip.png" id="3_coin"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font_size = 54
+font_color = Color(0.15, 0.12, 0.1, 1)
+outline_size = 8
+outline_color = Color(0.95, 0.92, 0.85, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_subtitle"]
+font_size = 18
+font_color = Color(0.45, 0.4, 0.35, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_coin"]
+font_size = 20
+font_color = Color(0.9, 0.65, 0.1, 1)
+outline_size = 4
+outline_color = Color(0.1, 0.08, 0.05, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
+bg_color = Color(0.2, 0.55, 0.25, 0.95)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.6, 0.9, 0.5, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_secondary"]
+bg_color = Color(0.28, 0.25, 0.22, 0.9)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.55, 0.5, 0.4, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="BgColor" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.94, 0.92, 0.86, 1)
+
+[node name="ParchmentBg" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.55)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_parch")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="TopRightContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -220.0
+offset_top = 25.0
+offset_right = -35.0
+offset_bottom = 70.0
+grow_horizontal = 0
+alignment = 2
+
+[node name="CoinContainer" type="HBoxContainer" parent="TopRightContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CoinIcon" type="TextureRect" parent="TopRightContainer/CoinContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("3_coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CoinLabel" type="Label" parent="TopRightContainer/CoinContainer"]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_coin")
+vertical_alignment = 1
+
+[node name="TitleBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -300.0
+offset_top = 90.0
+offset_right = 300.0
+offset_bottom = 210.0
+grow_horizontal = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="TitleBox"]
+layout_mode = 2
+text = "DOODLE SURVIVORS"
+label_settings = SubResource("LabelSettings_title")
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="TitleBox"]
+layout_mode = 2
+text = "Karalama Defterinde Hayatta Kalma Mücadelesi"
+label_settings = SubResource("LabelSettings_subtitle")
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -20.0
+offset_right = 160.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="PlayButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(320, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+text = "OYNA"
+
+[node name="ShopButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(320, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_secondary")
+text = "ATÖLYE (Power-Ups)"
+
+[node name="QuitButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(320, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_secondary")
+text = "ÇIKIŞ"

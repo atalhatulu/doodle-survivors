@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://ds3t64omhx0qy"]
+
+[ext_resource type="Script" path="res://scripts/weapon_spellbook.gd" id="1_book"]
+[ext_resource type="Texture2D" path="res://assets/sprites/weapons/weapon_spellbook.png" id="2_tex"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_book"]
+radius = 24.0
+
+[node name="WeaponSpellbook" type="Node2D"]
+script = ExtResource("1_book")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.22, 0.22)
+texture = ExtResource("2_tex")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_book")

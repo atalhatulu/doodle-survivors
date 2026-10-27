@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://cenking01"]
+
+[ext_resource type="Script" path="res://scripts/enemy_base.gd" id="1_enemy"]
+[ext_resource type="Texture2D" path="res://assets/sprites/characters/enemy_doodle_king.png" id="2_tex"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_king"]
+radius = 28.0
+height = 60.0
+
+[node name="EnemyKing" type="CharacterBody2D"]
+y_sort_enabled = true
+collision_layer = 1
+collision_mask = 5
+script = ExtResource("1_enemy")
+is_boss = true
+move_speed = 70.0
+max_health = 450.0
+damage = 30.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -38)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -12)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_king")
