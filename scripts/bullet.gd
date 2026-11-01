@@ -10,6 +10,7 @@ var direction: Vector2 = Vector2.RIGHT
 var is_crit: bool = false
 var pierce_count: int = 0
 var hit_enemies: Dictionary = {}
+var source_weapon_id: String = ""
 
 func _ready() -> void:
 	collision_layer = 0
@@ -25,17 +26,19 @@ func _physics_process(delta: float) -> void:
 	if spin_speed != 0.0:
 		$Sprite2D.rotation += spin_speed * delta
 		
-	# Ekran dışı mesafe kontrolü (Oyuncudan 950 pikselden fazla uzaklaşırsa sil)
+	# Ekran dışı mesafe kontrolü (Kamera zoom 0.7 ile köşeler ~1050px)
 	var player := get_tree().get_first_node_in_group("player")
-	if player and global_position.distance_to(player.global_position) > 1000.0:
+	if player and global_position.distance_to(player.global_position) > 1350.0:
 		queue_free()
 
 func _on_body_entered(body: Node2D) -> void:
 	if body and body.has_method("take_damage"):
+		if "is_dead" in body and body.is_dead:
+			return
 		var id := body.get_instance_id()
 		if not hit_enemies.has(id):
 			hit_enemies[id] = true
-			body.take_damage(damage, is_crit)
+			body.take_damage(damage, is_crit, global_position, source_weapon_id)
 			pierce_count += 1
 			if pierce_count >= max_pierce:
 				set_deferred("monitoring", false)

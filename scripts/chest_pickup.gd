@@ -35,14 +35,24 @@ func _open_chest(player: Node2D) -> void:
 	set_deferred("monitoring", false)
 	set_deferred("monitorable", false)
 	
-	# Altın ekle
-	if player.has_method("add_coins"):
-		player.add_coins(gold_amount)
+	# Şans faktörüne göre çoklu yükseltme (Vampire Survivors Jackpot Sandık)
+	var luck: float = player.luck_mult if player and "luck_mult" in player else 1.0
+	var upgrades_count: int = 1
+	var roll := randf()
+	if luck > 1.1 and roll < (luck - 1.0) * 0.3:
+		upgrades_count = 3
+	elif luck > 1.0 and roll < (luck - 1.0) * 0.6:
+		upgrades_count = 2
 		
-	# Rastgele 1 yükseltme ver
+	var final_gold: int = gold_amount * upgrades_count
+	if player.has_method("add_coins"):
+		player.add_coins(final_gold)
+		
+	# Yükseltme seçeneklerini aç
 	var menu = get_tree().current_scene.get_node_or_null("LevelUpMenu")
 	if menu and menu.has_method("show_level_up_options"):
-		menu.show_level_up_options()
+		for u in range(upgrades_count):
+			menu.show_level_up_options()
 		
 	var audio = get_node_or_null("/root/AudioManager")
 	if audio:

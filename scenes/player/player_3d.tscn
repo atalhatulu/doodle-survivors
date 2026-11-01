@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://cplayer3d01"]
+
+[ext_resource type="Script" uid="uid://8kldbmaavumj" path="res://scripts/player_3d.gd" id="1_p3d"]
+[ext_resource type="Texture2D" uid="uid://01ltycngoxvt" path="res://assets/sprites/characters/player_base.png" id="2_tex"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shadow"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.02, 0.05, 0.03, 0.20)
+
+[node name="Player3D" type="CharacterBody3D" unique_id=308759114 groups=["player"]]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_p3d")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=850172724]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_player")
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=883482288]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+pixel_size = 0.0055
+billboard = 2
+alpha_cut = 1
+texture = ExtResource("2_tex")
+
+[node name="ArcaneLight3D" type="OmniLight3D" parent="." unique_id=192837465]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+light_color = Color(0.72, 0.45, 0.95, 1)
+light_energy = 1.35
+omni_range = 6.5
+omni_attenuation = 1.25
+
+[node name="GroundShadow" type="CSGCylinder3D" parent="." unique_id=1383678862]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
+radius = 0.45
+height = 0.01
+sides = 16
+material = SubResource("StandardMaterial3D_shadow")
+
+[node name="CameraPivot" type="Node3D" parent="." unique_id=1480390773]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot" unique_id=1986447141]
+transform = Transform3D(1, 0, 0, 0, 0.819152, 0.573576, 0, -0.573576, 0.819152, 0, 0, 0)
+spring_length = 9.5
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D" unique_id=2121228171]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9.5)
+current = true
+fov = 60.0
+
+[node name="OrbitingWeaponSlots" type="Node3D" parent="." unique_id=1653395112]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+
+[node name="Slot0" type="Marker3D" parent="OrbitingWeaponSlots" unique_id=94099520]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 0, 0)
+
+[node name="Slot1" type="Marker3D" parent="OrbitingWeaponSlots" unique_id=1528316699]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 0, 1.9)
+
+[node name="Slot2" type="Marker3D" parent="OrbitingWeaponSlots" unique_id=725006443]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 0, 1.9)
+
+[node name="Slot3" type="Marker3D" parent="OrbitingWeaponSlots" unique_id=1665234657]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 0, 0)
+
+[node name="Slot4" type="Marker3D" parent="OrbitingWeaponSlots" unique_id=400296043]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 0, -1.9)
+
+[node name="Slot5" type="Marker3D" parent="OrbitingWeaponSlots" unique_id=1004627094]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 0, -1.9)
+
+[node name="Projectiles3D" type="Node3D" parent="." unique_id=319034180]

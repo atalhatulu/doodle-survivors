@@ -5,11 +5,13 @@ extends Node2D
 @onready var enemy_spawner: Node2D = $EnemySpawner
 @onready var hud: CanvasLayer = $HUD
 @onready var game_over_menu: CanvasLayer = $GameOverMenu
+const XPGem = preload("res://scripts/xp_gem.gd")
 
 var is_game_finished: bool = false
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE
+	XPGem.reset_pool()
 	
 	if player:
 		player.level_up.connect(_on_player_level_up)
@@ -28,11 +30,18 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 		if level_up_menu and level_up_menu.visible:
 			return
+		var inventory = get_node_or_null("InventoryMenu")
+		if inventory and inventory.visible:
+			inventory.toggle()
+			get_viewport().set_input_as_handled()
+			return
 		if game_over_menu:
 			if game_over_menu.visible:
-				game_over_menu._on_primary_pressed()
+				if game_over_menu.current_mode == "pause":
+					game_over_menu._on_primary_pressed()
 			else:
 				game_over_menu.show_pause()
+			get_viewport().set_input_as_handled()
 
 func _on_player_level_up(_new_level: int) -> void:
 	if is_game_finished:

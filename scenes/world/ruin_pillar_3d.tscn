@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://cpillar3d01"]
+
+[ext_resource type="Script" path="res://scripts/obstacle_transparency_3d.gd" id="1_obs"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/ruin_pillar.png" id="2_tex"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_pillar"]
+height = 2.4
+radius = 0.75
+
+[node name="RuinPillar3D" type="StaticBody3D"]
+collision_layer = 1
+collision_mask = 6
+script = ExtResource("1_obs")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("CylinderShape3D_pillar")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+pixel_size = 0.0075
+billboard = 2
+shaded = false
+double_sided = true
+alpha_cut = 1
+texture = ExtResource("2_tex")

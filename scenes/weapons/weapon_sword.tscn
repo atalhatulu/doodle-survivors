@@ -16,7 +16,7 @@ targeting_mode = "MOVEMENT_DIR"
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(15, 0)
 rotation = 0.785398
-scale = Vector2(0.28, 0.28)
+scale = Vector2(0.20, 0.20)
 texture = ExtResource("2_tex")
 
 [node name="Muzzle" type="Marker2D" parent="Sprite2D"]

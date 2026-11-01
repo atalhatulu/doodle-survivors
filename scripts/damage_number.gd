@@ -5,6 +5,12 @@ var gravity: float = 280.0
 var life_time: float = 0.65
 
 func setup(amount: float, is_crit: bool, spawn_pos: Vector2) -> void:
+	var tree: SceneTree = get_tree() if is_inside_tree() else (Engine.get_main_loop() as SceneTree)
+	var meta = tree.root.get_node_or_null("MetaProgression") if (tree and tree.root) else null
+	if meta and not bool(meta.settings.get("show_damage_numbers", true)):
+		queue_free()
+		return
+		
 	global_position = spawn_pos + Vector2(randf_range(-12.0, 12.0), randf_range(-8.0, 8.0))
 	
 	var label: Label = get_node_or_null("Label")

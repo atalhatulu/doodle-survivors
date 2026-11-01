@@ -3,16 +3,18 @@
 [ext_resource type="Script" path="res://scripts/inventory_menu.gd" id="1_inv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inv"]
-bg_color = Color(0.12, 0.12, 0.15, 0.95)
+bg_color = Color(0.1, 0.1, 0.12, 0.96)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color(0.3, 0.7, 0.9, 1)
+border_color = Color(0.35, 0.75, 0.95, 1)
 corner_radius_top_left = 12
 corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_size = 12
 
 [node name="InventoryMenu" type="CanvasLayer"]
 process_mode = 3
@@ -26,7 +28,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="Panel" parent="CenterContainer"]
-custom_minimum_size = Vector2(620, 420)
+custom_minimum_size = Vector2(880, 560)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_inv")
 
@@ -34,46 +36,88 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_inv")
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_top = 18.0
-offset_bottom = 50.0
+offset_top = 16.0
+offset_bottom = 48.0
 grow_horizontal = 2
+theme_override_colors/font_color = Color(0.95, 0.9, 0.8, 1)
 theme_override_font_sizes/font_size = 22
-text = "ENVANTER VE İSTATİSTİKLER (TAB)"
+text = "KARAKTER İSTATİSTİKLERİ VE TEÇHİZAT (TAB)"
 horizontal_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel"]
+[node name="MainHBox" type="HBoxContainer" parent="CenterContainer/Panel"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -270.0
-offset_top = -140.0
-offset_right = 270.0
-offset_bottom = 170.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 35.0
+offset_top = 58.0
+offset_right = -35.0
+offset_bottom = -45.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 30
 
-[node name="StatsTitle" type="Label" parent="CenterContainer/Panel/VBoxContainer"]
+[node name="LeftColumn" type="VBoxContainer" parent="CenterContainer/Panel/MainHBox"]
+custom_minimum_size = Vector2(430, 0)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.4, 0.85, 1, 1)
-theme_override_font_sizes/font_size = 18
-text = "Karakter İstatistikleri:"
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
 
-[node name="StatsLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer"]
+[node name="StatsTitle" type="Label" parent="CenterContainer/Panel/MainHBox/LeftColumn"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 15
-text = "• Can: 100 / 100"
+theme_override_colors/font_color = Color(0.35, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 17
+text = "TEMEL İSTATİSTİKLER (16 STAT):"
 
-[node name="WeaponsTitle" type="Label" parent="CenterContainer/Panel/VBoxContainer"]
+[node name="StatsLabel" type="RichTextLabel" parent="CenterContainer/Panel/MainHBox/LeftColumn"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
-theme_override_font_sizes/font_size = 18
-text = "Kuşanılan Silahlar (5 Slot):"
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 14
+bbcode_enabled = true
+text = "İstatistikler yükleniyor..."
 
-[node name="WeaponsLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer"]
+[node name="RightColumn" type="VBoxContainer" parent="CenterContainer/Panel/MainHBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 15
-text = "Slot 1: Boş"
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="WeaponsTitle" type="Label" parent="CenterContainer/Panel/MainHBox/RightColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.82, 0.3, 1)
+theme_override_font_sizes/font_size = 17
+text = "KUŞANILAN SİLAHLAR (Maks 6):"
+
+[node name="WeaponsLabel" type="RichTextLabel" parent="CenterContainer/Panel/MainHBox/RightColumn"]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 14
+bbcode_enabled = true
+text = "Silahlar..."
+
+[node name="PassivesTitle" type="Label" parent="CenterContainer/Panel/MainHBox/RightColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 17
+text = "KUŞANILAN PASİFLER (Maks 6):"
+
+[node name="PassivesLabel" type="RichTextLabel" parent="CenterContainer/Panel/MainHBox/RightColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 14
+bbcode_enabled = true
+text = "Pasifler..."
+
+[node name="FooterTip" type="Label" parent="CenterContainer/Panel"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -36.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.65, 0.65, 0.65, 1)
+theme_override_font_sizes/font_size = 13
+text = "Kapatmak için [TAB] veya [ESC] tuşuna basın"
+horizontal_alignment = 1

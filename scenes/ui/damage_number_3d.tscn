@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://cdamagenum3d01"]
+
+[ext_resource type="Script" path="res://scripts/damage_number_3d.gd" id="1_dmg3d"]
+
+[node name="DamageNumber3D" type="Node3D"]
+script = ExtResource("1_dmg3d")
+
+[node name="Label3D" type="Label3D" parent="."]
+billboard = 1
+double_sided = true
+no_depth_test = true
+render_priority = 10
+modulate = Color(0.12, 0.1, 0.08, 1)
+outline_modulate = Color(1, 1, 1, 0.9)
+outline_size = 8
+font_size = 32
+text = "99"

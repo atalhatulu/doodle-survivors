@@ -1,0 +1,667 @@
+[gd_scene load_steps=14 format=3 uid="uid://ccharselect0123"]
+
+[ext_resource type="Script" path="res://scripts/character_select_menu.gd" id="1_char"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/parchment_bg.png" id="2_parch_bg"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/parchment_clean.png" id="3_parch_card"]
+[ext_resource type="Texture2D" path="res://assets/sprites/characters/char_knight.png" id="4_knight"]
+[ext_resource type="Texture2D" path="res://assets/sprites/characters/char_mage.png" id="5_mage"]
+[ext_resource type="Texture2D" path="res://assets/sprites/characters/char_ranger.png" id="6_ranger"]
+[ext_resource type="Texture2D" path="res://assets/sprites/characters/char_alchemist.png" id="7_alchemist"]
+[ext_resource type="Texture2D" path="res://assets/sprites/weapons/weapon_sword.png" id="8_sword"]
+[ext_resource type="Texture2D" path="res://assets/sprites/weapons/weapon_staff.png" id="9_staff"]
+[ext_resource type="Texture2D" path="res://assets/sprites/weapons/weapon_bow.png" id="10_bow"]
+[ext_resource type="Texture2D" path="res://assets/sprites/weapons/weapon_potion.png" id="11_potion"]
+[ext_resource type="Texture2D" path="res://assets/sprites/characters/char_necromancer.png" id="12_necro"]
+[ext_resource type="Texture2D" path="res://assets/sprites/weapons/spirit_wolf.png" id="13_wolf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_sec"]
+bg_color = Color(0.18, 0.45, 0.22, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.7, 0.9, 0.5, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_sec_hover"]
+bg_color = Color(0.25, 0.58, 0.3, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 1, 0.65, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_back"]
+bg_color = Color(0.4, 0.2, 0.18, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.5, 0.4, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="CharacterSelectMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_char")
+
+[node name="BgColor" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.12, 0.11, 0.14, 1)
+
+[node name="ParchmentBg" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.18)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_parch_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="TopContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -300.0
+offset_top = 16.0
+offset_right = 300.0
+offset_bottom = 90.0
+grow_horizontal = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="TopContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.82, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.08, 0.05, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 32
+text = "BAŞLANGIÇ SİLAHINI SEÇ"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="TopContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.85, 0.85, 0.85)
+theme_override_font_sizes/font_size = 14
+text = "Maceraya adım atacak gezginin başlangıç silahı ve savaş disiplini."
+horizontal_alignment = 1
+
+[node name="CardsContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -585.0
+offset_top = -215.0
+offset_right = 585.0
+offset_bottom = 225.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="CardKnight" type="TextureRect" parent="CardsContainer"]
+custom_minimum_size = Vector2(220, 440)
+layout_mode = 2
+mouse_filter = 0
+texture = ExtResource("3_parch_card")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Content" type="VBoxContainer" parent="CardsContainer/CardKnight"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 18.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="ShortcutLabel" type="Label" parent="CardsContainer/CardKnight/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.75, 0.25, 1)
+theme_override_font_sizes/font_size = 14
+text = "[ 1 ]"
+horizontal_alignment = 1
+
+[node name="PortraitBox" type="CenterContainer" parent="CardsContainer/CardKnight/Content"]
+layout_mode = 2
+
+[node name="Portrait" type="TextureRect" parent="CardsContainer/CardKnight/Content/PortraitBox"]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+texture = ExtResource("4_knight")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="CardsContainer/CardKnight/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1.0, 0.88, 0.45, 1)
+theme_override_font_sizes/font_size = 18
+text = "Sürgün Şövalye"
+horizontal_alignment = 1
+
+[node name="TitleLabel" type="Label" parent="CardsContainer/CardKnight/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.70, 0.35, 1)
+theme_override_font_sizes/font_size = 12
+text = "Sadakat Yemini"
+horizontal_alignment = 1
+
+[node name="WeaponRow" type="HBoxContainer" parent="CardsContainer/CardKnight/Content"]
+layout_mode = 2
+alignment = 1
+
+[node name="WeaponIcon" type="TextureRect" parent="CardsContainer/CardKnight/Content/WeaponRow"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = ExtResource("8_sword")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="WeaponName" type="Label" parent="CardsContainer/CardKnight/Content/WeaponRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.90, 0.85, 1)
+theme_override_font_sizes/font_size = 12
+text = "Şövalye Kılıcı"
+
+[node name="DescLabel" type="Label" parent="CardsContainer/CardKnight/Content"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.80, 0.78, 1)
+theme_override_font_sizes/font_size = 11
+text = "Ağır çelik zırh kuşanmış, hayatta kalan son şövalye."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="BonusLabel" type="Label" parent="CardsContainer/CardKnight/Content"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.92, 0.45, 1)
+theme_override_font_sizes/font_size = 12
+text = "+%15 Zırh
++25 Maks. Can
+-%5 Hareket Hızı"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="CardsContainer/CardKnight/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SelectButton" type="Button" parent="CardsContainer/CardKnight/Content"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_sec")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_sec_hover")
+text = "SEÇ [1]"
+
+[node name="CardMage" type="TextureRect" parent="CardsContainer"]
+custom_minimum_size = Vector2(220, 440)
+layout_mode = 2
+mouse_filter = 0
+texture = ExtResource("3_parch_card")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Content" type="VBoxContainer" parent="CardsContainer/CardMage"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 18.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="ShortcutLabel" type="Label" parent="CardsContainer/CardMage/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.75, 0.25, 1)
+theme_override_font_sizes/font_size = 14
+text = "[ 2 ]"
+horizontal_alignment = 1
+
+[node name="PortraitBox" type="CenterContainer" parent="CardsContainer/CardMage/Content"]
+layout_mode = 2
+
+[node name="Portrait" type="TextureRect" parent="CardsContainer/CardMage/Content/PortraitBox"]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+texture = ExtResource("5_mage")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="CardsContainer/CardMage/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1.0, 0.88, 0.45, 1)
+theme_override_font_sizes/font_size = 18
+text = "Karanlık Büyücü"
+horizontal_alignment = 1
+
+[node name="TitleLabel" type="Label" parent="CardsContainer/CardMage/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.70, 0.35, 1)
+theme_override_font_sizes/font_size = 12
+text = "Yasak Arkana"
+horizontal_alignment = 1
+
+[node name="WeaponRow" type="HBoxContainer" parent="CardsContainer/CardMage/Content"]
+layout_mode = 2
+alignment = 1
+
+[node name="WeaponIcon" type="TextureRect" parent="CardsContainer/CardMage/Content/WeaponRow"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = ExtResource("9_staff")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="WeaponName" type="Label" parent="CardsContainer/CardMage/Content/WeaponRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.90, 0.85, 1)
+theme_override_font_sizes/font_size = 12
+text = "Büyü Asası"
+
+[node name="DescLabel" type="Label" parent="CardsContainer/CardMage/Content"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.80, 0.78, 1)
+theme_override_font_sizes/font_size = 11
+text = "Kadim arşivi ateşe verip yasak büyüleri kuşanan alim."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="BonusLabel" type="Label" parent="CardsContainer/CardMage/Content"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.92, 0.45, 1)
+theme_override_font_sizes/font_size = 12
+text = "+%20 Etki Alanı
+-%10 Bekleme Süresi
+-15 Maks. Can"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="CardsContainer/CardMage/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SelectButton" type="Button" parent="CardsContainer/CardMage/Content"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_sec")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_sec_hover")
+text = "SEÇ [2]"
+
+[node name="CardRanger" type="TextureRect" parent="CardsContainer"]
+custom_minimum_size = Vector2(220, 440)
+layout_mode = 2
+mouse_filter = 0
+texture = ExtResource("3_parch_card")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Content" type="VBoxContainer" parent="CardsContainer/CardRanger"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 18.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="ShortcutLabel" type="Label" parent="CardsContainer/CardRanger/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.75, 0.25, 1)
+theme_override_font_sizes/font_size = 14
+text = "[ 3 ]"
+horizontal_alignment = 1
+
+[node name="PortraitBox" type="CenterContainer" parent="CardsContainer/CardRanger/Content"]
+layout_mode = 2
+
+[node name="Portrait" type="TextureRect" parent="CardsContainer/CardRanger/Content/PortraitBox"]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+texture = ExtResource("6_ranger")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="CardsContainer/CardRanger/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1.0, 0.88, 0.45, 1)
+theme_override_font_sizes/font_size = 18
+text = "Orman Korucusu"
+horizontal_alignment = 1
+
+[node name="TitleLabel" type="Label" parent="CardsContainer/CardRanger/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.70, 0.35, 1)
+theme_override_font_sizes/font_size = 12
+text = "Gölge Avcısı"
+horizontal_alignment = 1
+
+[node name="WeaponRow" type="HBoxContainer" parent="CardsContainer/CardRanger/Content"]
+layout_mode = 2
+alignment = 1
+
+[node name="WeaponIcon" type="TextureRect" parent="CardsContainer/CardRanger/Content/WeaponRow"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = ExtResource("10_bow")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="WeaponName" type="Label" parent="CardsContainer/CardRanger/Content/WeaponRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.90, 0.85, 1)
+theme_override_font_sizes/font_size = 12
+text = "Avcı Yayı"
+
+[node name="DescLabel" type="Label" parent="CardsContainer/CardRanger/Content"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.80, 0.78, 1)
+theme_override_font_sizes/font_size = 11
+text = "Fısıldayan koruların en çevik ve ölümcül gölge izcisi."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="BonusLabel" type="Label" parent="CardsContainer/CardRanger/Content"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.92, 0.45, 1)
+theme_override_font_sizes/font_size = 12
+text = "+%15 Hareket Hızı
++%15 Şans
++%10 Mermi Hızı"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="CardsContainer/CardRanger/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SelectButton" type="Button" parent="CardsContainer/CardRanger/Content"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_sec")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_sec_hover")
+text = "SEÇ [3]"
+
+[node name="CardAlchemist" type="TextureRect" parent="CardsContainer"]
+custom_minimum_size = Vector2(220, 440)
+layout_mode = 2
+mouse_filter = 0
+texture = ExtResource("3_parch_card")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Content" type="VBoxContainer" parent="CardsContainer/CardAlchemist"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 18.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="ShortcutLabel" type="Label" parent="CardsContainer/CardAlchemist/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.75, 0.25, 1)
+theme_override_font_sizes/font_size = 14
+text = "[ 4 ]"
+horizontal_alignment = 1
+
+[node name="PortraitBox" type="CenterContainer" parent="CardsContainer/CardAlchemist/Content"]
+layout_mode = 2
+
+[node name="Portrait" type="TextureRect" parent="CardsContainer/CardAlchemist/Content/PortraitBox"]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+texture = ExtResource("7_alchemist")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="CardsContainer/CardAlchemist/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1.0, 0.88, 0.45, 1)
+theme_override_font_sizes/font_size = 18
+text = "Kızıl Simyager"
+horizontal_alignment = 1
+
+[node name="TitleLabel" type="Label" parent="CardsContainer/CardAlchemist/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.70, 0.35, 1)
+theme_override_font_sizes/font_size = 12
+text = "İksir Ustası"
+horizontal_alignment = 1
+
+[node name="WeaponRow" type="HBoxContainer" parent="CardsContainer/CardAlchemist/Content"]
+layout_mode = 2
+alignment = 1
+
+[node name="WeaponIcon" type="TextureRect" parent="CardsContainer/CardAlchemist/Content/WeaponRow"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = ExtResource("11_potion")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="WeaponName" type="Label" parent="CardsContainer/CardAlchemist/Content/WeaponRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.90, 0.85, 1)
+theme_override_font_sizes/font_size = 12
+text = "İksir Şişesi"
+
+[node name="DescLabel" type="Label" parent="CardsContainer/CardAlchemist/Content"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.80, 0.78, 1)
+theme_override_font_sizes/font_size = 11
+text = "Zehirli asitler damıtıp bedeni sürekli tazeleyen kan simyacısı."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="BonusLabel" type="Label" parent="CardsContainer/CardAlchemist/Content"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.92, 0.45, 1)
+theme_override_font_sizes/font_size = 12
+text = "+%25 Süre
++0.4 Can/sn Yenilenme
++%10 Büyüme (XP)"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="CardsContainer/CardAlchemist/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SelectButton" type="Button" parent="CardsContainer/CardAlchemist/Content"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 36)
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_sec")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_sec_hover")
+text = "SEÇ [4]"
+
+[node name="CardNecromancer" type="TextureRect" parent="CardsContainer"]
+custom_minimum_size = Vector2(220, 440)
+layout_mode = 2
+mouse_filter = 0
+texture = ExtResource("3_parch_card")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Content" type="VBoxContainer" parent="CardsContainer/CardNecromancer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 18.0
+offset_right = -14.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="ShortcutLabel" type="Label" parent="CardsContainer/CardNecromancer/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.75, 0.25, 1)
+theme_override_font_sizes/font_size = 14
+text = "[ 5 ]"
+horizontal_alignment = 1
+
+[node name="PortraitBox" type="CenterContainer" parent="CardsContainer/CardNecromancer/Content"]
+layout_mode = 2
+
+[node name="Portrait" type="TextureRect" parent="CardsContainer/CardNecromancer/Content/PortraitBox"]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+texture = ExtResource("12_necro")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="CardsContainer/CardNecromancer/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1.0, 0.88, 0.45, 1)
+theme_override_font_sizes/font_size = 18
+text = "Gölge Çağırıcı"
+horizontal_alignment = 1
+
+[node name="TitleLabel" type="Label" parent="CardsContainer/CardNecromancer/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.70, 0.35, 1)
+theme_override_font_sizes/font_size = 12
+text = "Ruhların Efendisi"
+horizontal_alignment = 1
+
+[node name="WeaponRow" type="HBoxContainer" parent="CardsContainer/CardNecromancer/Content"]
+layout_mode = 2
+alignment = 1
+
+[node name="WeaponIcon" type="TextureRect" parent="CardsContainer/CardNecromancer/Content/WeaponRow"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = ExtResource("13_wolf")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="WeaponName" type="Label" parent="CardsContainer/CardNecromancer/Content/WeaponRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.90, 0.85, 1)
+theme_override_font_sizes/font_size = 12
+text = "Ruhani Kurt"
+
+[node name="DescLabel" type="Label" parent="CardsContainer/CardNecromancer/Content"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.80, 0.78, 1)
+theme_override_font_sizes/font_size = 11
+text = "Ölümün kadim sırlarına vakıf, ruhani kurt ve iskelet ordusu toplayan alim."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="BonusLabel" type="Label" parent="CardsContainer/CardNecromancer/Content"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.92, 0.45, 1)
+theme_override_font_sizes/font_size = 12
+text = "+1 Ekstra Mermi
++%25 Süre
+-10 Maks. Can
+(Ruh Bağı: İskelet Ordusu)"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="CardsContainer/CardNecromancer/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SelectButton" type="Button" parent="CardsContainer/CardNecromancer/Content"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_sec")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_sec_hover")
+text = "SEÇ [5]"
+
+[node name="BottomContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -68.0
+offset_right = 250.0
+offset_bottom = -28.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="BackButton" type="Button" parent="BottomContainer"]
+custom_minimum_size = Vector2(170, 40)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_back")
+text = "← ANA MENÜ"
+
+[node name="HintLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -24.0
+offset_right = 250.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 0.75)
+theme_override_font_sizes/font_size = 12
+text = "Kartlara tıklayabilir veya 1, 2, 3, 4, 5 tuşlarına basabilirsiniz."
+horizontal_alignment = 1

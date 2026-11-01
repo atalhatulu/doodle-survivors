@@ -16,7 +16,9 @@ extends Node2D
 @export var targeting_mode: String = "SECTOR" # SECTOR, CLOSEST, STRONGEST, FARTHEST, MOVEMENT_DIR
 
 var fire_timer: float = 0.0
+var target_scan_timer: float = 0.0
 var current_target: Node2D = null
+var base_sprite_pos_x: float = 0.0
 
 # Temel değerleri yükseltme çarpanları için saklayalım
 var base_damage: float = 16.0
@@ -27,22 +29,19 @@ func _ready() -> void:
 	base_damage = damage
 	base_fire_rate = fire_rate
 	base_projectiles_count = projectiles_count
+	if sprite:
+		base_sprite_pos_x = sprite.position.x
 	if not player:
 		player = get_tree().get_first_node_in_group("player")
 
 func upgrade_level(new_lvl: int) -> void:
 	current_level = new_lvl
-	# Seviye başına +%30 hasar, +%10 atış hızı
+	# Seviye başına +%35 hasar, +%10 atış hızı
 	damage = base_damage * (1.0 + (current_level - 1) * 0.35)
-	fire_rate = maxf(0.10, base_fire_rate * (1.0 - (current_level - 1) * 0.11))
+	fire_rate = maxf(0.10, base_fire_rate * (1.0 - (current_level - 1) * 0.10))
+	range_radius = 400.0 * (1.0 + (current_level - 1) * 0.05)
 	
-	# VS Tarzı kademeli ek mermi artışı:
-	if current_level >= 3 and base_projectiles_count == 1:
-		projectiles_count = 2
-	if current_level >= 5:
-		projectiles_count = 3
 	if current_level >= 7:
-		projectiles_count = 4
 		damage *= 1.25 # 7. seviye zirve bonusu
 		
 	# Yükselme efekti (Silah küçük bir zıplama yapsın)
@@ -57,12 +56,15 @@ func _process(delta: float) -> void:
 		cd_mult = player.cooldown_mult
 		
 	fire_timer += delta
+	target_scan_timer += delta
 	if not player or not is_instance_valid(player):
 		player = get_tree().get_first_node_in_group("player")
 		
-	_find_target()
+	if target_scan_timer >= 0.10 or current_target == null or not is_instance_valid(current_target) or ("is_dead" in current_target and current_target.is_dead):
+		target_scan_timer = 0.0
+		_find_target()
 	
-	if current_target and is_instance_valid(current_target):
+	if current_target and is_instance_valid(current_target) and not ("is_dead" in current_target and current_target.is_dead):
 		var target_dir := (current_target.global_position - global_position).normalized()
 		var target_angle := target_dir.angle()
 		global_rotation = target_angle
@@ -74,6 +76,7 @@ func _process(delta: float) -> void:
 			fire_timer = 0.0
 			_shoot(target_dir)
 	else:
+		current_target = null
 		global_rotation = lerp_angle(global_rotation, 0.0, delta * 5.0)
 		scale.y = 1.0
 
@@ -83,19 +86,32 @@ func _find_target() -> void:
 	if enemies.is_empty():
 		return
 		
-	var center_pos := player.global_position if player else global_position
+	var center_pos := player.global_position if (player and is_instance_valid(player)) else global_position
 	var candidate_enemies: Array[Dictionary] = []
+	var closest_candidate: Node2D = null
+	var min_dist: float = 999999.0
 	
 	for e in enemies:
 		var enemy: Node2D = e as Node2D
 		if is_instance_valid(enemy):
+			if "is_dead" in enemy and enemy.is_dead:
+				continue
 			var to_enemy: Vector2 = enemy.global_position - center_pos
 			var d: float = to_enemy.length()
 			if d <= range_radius:
 				var hp: float = enemy.health if "health" in enemy else 10.0
 				candidate_enemies.append({"enemy": enemy, "dist": d, "hp": hp, "to_enemy": to_enemy})
+				if d < min_dist:
+					min_dist = d
+					closest_candidate = enemy
 				
 	if candidate_enemies.is_empty():
+		return
+		
+	# KRİTİK KORUMA: Oyuncunun dibinde (acil tehlike menzili <= 160px) düşman varsa,
+	# diğer modlar ne olursa olsun mutlak öncelikle dibimizdeki tehdide odaklan!
+	if closest_candidate and min_dist <= 160.0:
+		current_target = closest_candidate
 		return
 		
 	match targeting_mode:
@@ -130,7 +146,7 @@ func _find_target() -> void:
 			current_target = candidate_enemies[0]["enemy"]
 			
 		"SECTOR", _: # Avcı Yayı: Kendi sektörünü koruma
-			var my_slot_angle := position.angle() if get_parent() and get_parent() is Marker2D else 0.0
+			var my_slot_angle: float = get_parent().position.angle() if get_parent() and get_parent() is Marker2D else 0.0
 			candidate_enemies.sort_custom(func(a, b):
 				var diff_a: float = abs(wrapf(a["to_enemy"].angle() - my_slot_angle, -PI, PI))
 				var diff_b: float = abs(wrapf(b["to_enemy"].angle() - my_slot_angle, -PI, PI))
@@ -147,6 +163,8 @@ func _shoot(dir: Vector2) -> void:
 	var dmg_mult: float = 1.0
 	var area_scale: float = 1.0
 	var crit_prob: float = 0.05
+	var extra_proj: int = 0
+	var speed_mult: float = 1.0
 	if player:
 		if "damage_multiplier" in player:
 			dmg_mult = player.damage_multiplier
@@ -154,11 +172,15 @@ func _shoot(dir: Vector2) -> void:
 			area_scale = player.area_mult
 		if "crit_chance" in player:
 			crit_prob = player.crit_chance
+		if "extra_projectiles" in player:
+			extra_proj = player.extra_projectiles
+		if "projectile_speed_mult" in player:
+			speed_mult = player.projectile_speed_mult
 			
 	var is_crit: bool = randf() < crit_prob
 	var final_damage: float = damage * dmg_mult * (2.0 if is_crit else 1.0)
 	
-	var count: int = max(1, projectiles_count)
+	var count: int = max(1, projectiles_count + extra_proj)
 	var spawn_pos: Vector2 = muzzle.global_position if muzzle else global_position
 	
 	# Mermi yayılımı (Çoklu atışlarda fan şeklinde yayılma)
@@ -177,10 +199,15 @@ func _shoot(dir: Vector2) -> void:
 		b.rotation = fire_ang
 		if "is_crit" in b:
 			b.is_crit = is_crit
+		if "speed" in b:
+			b.speed = b.speed * speed_mult
 		
+		if "source_weapon_id" in b:
+			b.source_weapon_id = weapon_id
 		if "scale" in b:
 			b.scale = b.scale * area_scale
-		get_tree().current_scene.add_child(b)
+		var target_node: Node = get_tree().current_scene if get_tree().current_scene else get_tree().root
+		target_node.add_child(b)
 		
 	var audio = get_node_or_null("/root/AudioManager")
 	if audio:
@@ -189,6 +216,7 @@ func _shoot(dir: Vector2) -> void:
 		else:
 			audio.play_sfx("shoot", 0.10)
 	
-	var tween := create_tween()
-	sprite.position.x = -8.0
-	tween.tween_property(sprite, "position:x", 0.0, 0.1)
+	if sprite:
+		var tween := create_tween()
+		sprite.position.x = base_sprite_pos_x - 8.0
+		tween.tween_property(sprite, "position:x", base_sprite_pos_x, 0.1)

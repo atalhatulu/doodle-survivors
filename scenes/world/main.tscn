@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://js4unemp03o7" path="res://scenes/ui/game_over_menu.tscn" id="8_over"]
 
 [node name="Main" type="Node2D" unique_id=1756506881]
+y_sort_enabled = true
 script = ExtResource("7_manager")
 
 [node name="HUD" parent="." unique_id=1540232249 instance=ExtResource("4_hud")]

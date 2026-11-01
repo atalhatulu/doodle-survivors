@@ -22,15 +22,17 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	position += direction * speed * delta
 	var player := get_tree().get_first_node_in_group("player")
-	if player and global_position.distance_to(player.global_position) > 1000.0:
+	if player and global_position.distance_to(player.global_position) > 1350.0:
 		queue_free()
 
 func _on_body_entered(body: Node2D) -> void:
 	if body and body.has_method("take_damage"):
+		if "is_dead" in body and body.is_dead:
+			return
 		var id := body.get_instance_id()
 		if not hit_enemies.has(id):
 			hit_enemies[id] = true
-			body.take_damage(damage, is_crit)
+			body.take_damage(damage, is_crit, global_position, "weapon_sword")
 			pierce_count += 1
 			if pierce_count >= max_pierce:
 				set_deferred("monitoring", false)

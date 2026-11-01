@@ -7,26 +7,18 @@ const CHUNK_RADIUS: int = 2
 
 @onready var player: Node2D = get_tree().get_first_node_in_group("player")
 
-# Zemin dokusu (Kolaj El İşi Kağıdı)
-var ground_tile_tex: Texture2D = preload("res://assets/sprites/terrain/paper_patchwork_ground.png")
-
-var patchwork_tiles: Array[Texture2D] = [
-	preload("res://assets/sprites/terrain/patchwork_tile_0_0.png"),
-	preload("res://assets/sprites/terrain/patchwork_tile_0_1.png"),
-	preload("res://assets/sprites/terrain/patchwork_tile_0_2.png"),
-	preload("res://assets/sprites/terrain/patchwork_tile_1_0.png"),
-	preload("res://assets/sprites/terrain/patchwork_tile_1_1.png"),
-	preload("res://assets/sprites/terrain/patchwork_tile_1_2.png"),
-	preload("res://assets/sprites/terrain/patchwork_tile_2_0.png"),
-	preload("res://assets/sprites/terrain/patchwork_tile_2_1.png"),
-	preload("res://assets/sprites/terrain/patchwork_tile_2_2.png")
+# Karanlık Orta Çağ Fantezi Zemin Dokuları
+var terrain_tiles: Array[Texture2D] = [
+	preload("res://assets/sprites/terrain/tile_dungeon_cobble.png"),
+	preload("res://assets/sprites/terrain/tile_mossy_ground.png"),
+	preload("res://assets/sprites/terrain/tile_ruin_slabs.png"),
+	preload("res://assets/sprites/terrain/tile_dark_earth.png")
 ]
 
 # Papercraft Zemin Detayları
 var paper_floor_props: Array[Texture2D] = [
-	preload("res://assets/sprites/environment/paper_grass_tall.png"),
-	preload("res://assets/sprites/environment/paper_grass_spiky.png"),
-	preload("res://assets/sprites/environment/paper_rock_small.png"),
+	preload("res://assets/sprites/environment/paper_bush_dense.png"),
+	preload("res://assets/sprites/environment/paper_rock_grey.png"),
 	preload("res://assets/sprites/environment/paper_stump.png")
 ]
 
@@ -35,6 +27,11 @@ var tree_scene: PackedScene = preload("res://scenes/world/tree_big.tscn")
 var rock_scene: PackedScene = preload("res://scenes/world/rock_grey.tscn")
 var bush_tex: Texture2D = preload("res://assets/sprites/environment/paper_bush_dense.png")
 var palm_tex: Texture2D = preload("res://assets/sprites/environment/paper_tree_palm_big.png")
+
+# Kırılabilir Saha Objeleri
+var prop_barrel_scene: PackedScene = preload("res://scenes/world/prop_barrel.tscn")
+var prop_jar_scene: PackedScene = preload("res://scenes/world/prop_jar.tscn")
+var prop_grave_scene: PackedScene = preload("res://scenes/world/prop_grave.tscn")
 
 var loaded_chunks: Dictionary = {}
 var current_player_chunk: Vector2i = Vector2i(9999, 9999)
@@ -92,31 +89,65 @@ func _spawn_chunk(coord: Vector2i) -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = seed_val
 	
-	# 1. Zemin Katmanı
+	# 1. Zemin Katmanı (Karanlık Orta Çağ Zemin Varyasyonları)
+	var biome_index := absi((coord.x * 3 + coord.y * 5 + (coord.x ^ coord.y)) % terrain_tiles.size())
+	var base_tex: Texture2D = terrain_tiles[biome_index]
+	
 	var ground_rect := TextureRect.new()
-	ground_rect.texture = ground_tile_tex
+	ground_rect.texture = base_tex
 	ground_rect.stretch_mode = TextureRect.STRETCH_TILE
 	ground_rect.size = Vector2(CHUNK_SIZE, CHUNK_SIZE)
 	ground_rect.z_index = -20
+	ground_rect.modulate = Color(0.24, 0.32, 0.26, 1.0) # Shadow Forest Papercraft karanlık karton zemin
 	chunk_root.add_child(ground_rect)
+	
+	# Zemin geçiş yamaları (Organik arazi harmanı)
+	var alt_tex: Texture2D = terrain_tiles[(biome_index + 1) % terrain_tiles.size()]
+	var patch_count := rng.randi_range(1, 2)
+	for p in range(patch_count):
+		var patch_rect := TextureRect.new()
+		patch_rect.texture = alt_tex
+		patch_rect.stretch_mode = TextureRect.STRETCH_TILE
+		var pw := rng.randf_range(280.0, 480.0)
+		var ph := rng.randf_range(280.0, 480.0)
+		patch_rect.size = Vector2(pw, ph)
+		patch_rect.position = Vector2(rng.randf_range(40.0, CHUNK_SIZE - pw - 40.0), rng.randf_range(40.0, CHUNK_SIZE - ph - 40.0))
+		patch_rect.modulate = Color(0.20, 0.28, 0.22, 0.45)
+		patch_rect.z_index = -19
+		chunk_root.add_child(patch_rect)
+
 			
 	# 2. Papercraft Zemin Detayları (Çimen tutamları, küçük taşlar)
-	var detail_count := rng.randi_range(5, 9)
+	var detail_count := rng.randi_range(3, 6)
 	for i in range(detail_count):
 		var detail := Sprite2D.new()
 		detail.texture = paper_floor_props[rng.randi() % paper_floor_props.size()]
-		detail.position = Vector2(rng.randf_range(40, CHUNK_SIZE - 40), rng.randf_range(40, CHUNK_SIZE - 40))
-		detail.scale = Vector2(0.5, 0.5)
+		detail.position = Vector2(rng.randf_range(50, CHUNK_SIZE - 50), rng.randf_range(50, CHUNK_SIZE - 50))
+		detail.scale = Vector2(0.18, 0.18)
 		detail.z_index = -10
 		chunk_root.add_child(detail)
 		
 	if coord == Vector2i.ZERO:
+		# Başlangıç chunk'ında oyuncunun yakınına 2 adet kırılabilir fıçı/testi ekle (güvenli mesafe)
+		var p1 = prop_barrel_scene.instantiate()
+		p1.position = Vector2(240, 180)
+		chunk_root.add_child(p1)
+		var p2 = prop_jar_scene.instantiate()
+		p2.position = Vector2(-220, 160)
+		chunk_root.add_child(p2)
+		# Oyuncudan uzakta 2 ağaç/kaya yerleştir
+		var t1 = tree_scene.instantiate()
+		t1.position = Vector2(450, 420)
+		chunk_root.add_child(t1)
+		var r1 = rock_scene.instantiate()
+		r1.position = Vector2(520, -380)
+		chunk_root.add_child(r1)
 		return
 		
-	# 3. Y-Sort Papercraft Engelleri (Ağaçlar, Kayalar, Çalılar)
-	var obstacle_count := rng.randi_range(3, 6)
+	# 3. Y-Sort Papercraft Engelleri (Ağaçlar, Kayalar, Çalılar) - Dengeli Dağılım
+	var obstacle_count := rng.randi_range(2, 4)
 	for i in range(obstacle_count):
-		var spawn_pos := Vector2(rng.randf_range(70, CHUNK_SIZE - 70), rng.randf_range(70, CHUNK_SIZE - 70))
+		var spawn_pos := Vector2(rng.randf_range(100, CHUNK_SIZE - 100), rng.randf_range(100, CHUNK_SIZE - 100))
 		var r := rng.randf()
 		if r < 0.45:
 			var tree = tree_scene.instantiate()
@@ -130,6 +161,21 @@ func _spawn_chunk(coord: Vector2i) -> void:
 			var bush := Sprite2D.new()
 			bush.texture = bush_tex
 			bush.position = spawn_pos
-			bush.scale = Vector2(0.65, 0.65)
-			bush.offset = Vector2(0, -30)
+			bush.scale = Vector2(0.26, 0.26)
+			bush.offset = Vector2(0, -20)
 			chunk_root.add_child(bush)
+			
+	# 4. Kırılabilir Saha Objeleri (Fıçılar, Testiler, Harap Mezarlar)
+	var prop_count := rng.randi_range(1, 3)
+	for i in range(prop_count):
+		var prop_pos := Vector2(rng.randf_range(100, CHUNK_SIZE - 100), rng.randf_range(100, CHUNK_SIZE - 100))
+		var pr := rng.randf()
+		var prop_node: Node2D = null
+		if pr < 0.45:
+			prop_node = prop_barrel_scene.instantiate()
+		elif pr < 0.80:
+			prop_node = prop_jar_scene.instantiate()
+		else:
+			prop_node = prop_grave_scene.instantiate()
+		prop_node.position = prop_pos
+		chunk_root.add_child(prop_node)

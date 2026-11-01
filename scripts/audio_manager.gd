@@ -47,15 +47,50 @@ var volume_offsets: Dictionary = {
 var last_played_times: Dictionary = {}
 var player_pool: Array[AudioStreamPlayer] = []
 var next_player_index: int = 0
+var music_player: AudioStreamPlayer = null
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS # Oyun duraklatıldığında da UI sesleri çalsın
+	_setup_buses()
 	
 	for i in range(POOL_SIZE):
 		var p := AudioStreamPlayer.new()
-		p.bus = "Master"
+		p.bus = "SFX"
 		add_child(p)
 		player_pool.append(p)
+		
+	music_player = AudioStreamPlayer.new()
+	music_player.bus = "Music"
+	add_child(music_player)
+
+func _setup_buses() -> void:
+	if AudioServer.get_bus_index("SFX") == -1:
+		AudioServer.add_bus()
+		var sfx_idx: int = AudioServer.bus_count - 1
+		AudioServer.set_bus_name(sfx_idx, "SFX")
+		AudioServer.set_bus_send(sfx_idx, "Master")
+	if AudioServer.get_bus_index("Music") == -1:
+		AudioServer.add_bus()
+		var mus_idx: int = AudioServer.bus_count - 1
+		AudioServer.set_bus_name(mus_idx, "Music")
+		AudioServer.set_bus_send(mus_idx, "Master")
+
+func set_bus_volume_linear(bus_name: String, linear_val: float) -> void:
+	var idx := AudioServer.get_bus_index(bus_name)
+	if idx != -1:
+		if linear_val <= 0.001:
+			AudioServer.set_bus_mute(idx, true)
+		else:
+			AudioServer.set_bus_mute(idx, false)
+			AudioServer.set_bus_volume_db(idx, linear_to_db(linear_val))
+
+func set_volume(bus_name: String, linear_val: float) -> void:
+	set_bus_volume_linear(bus_name.capitalize(), linear_val)
+
+func apply_audio_settings(master_vol: float, sfx_vol: float, music_vol: float) -> void:
+	set_bus_volume_linear("Master", master_vol)
+	set_bus_volume_linear("SFX", sfx_vol)
+	set_bus_volume_linear("Music", music_vol)
 
 func play_sfx(sound_name: String, pitch_range: float = 0.12, volume_db_mod: float = 0.0) -> void:
 	if not sound_streams.has(sound_name):

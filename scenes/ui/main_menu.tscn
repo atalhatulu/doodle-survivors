@@ -2,47 +2,85 @@
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_menu"]
 [ext_resource type="Texture2D" path="res://assets/sprites/ui/parchment_bg.png" id="2_parch"]
-[ext_resource type="Texture2D" path="res://assets/sprites/pickups/coin_paperclip.png" id="3_coin"]
+[ext_resource type="Texture2D" path="res://assets/sprites/pickups/gold_coin.png" id="3_coin"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_title"]
-font_size = 54
-font_color = Color(0.15, 0.12, 0.1, 1)
-outline_size = 8
-outline_color = Color(0.95, 0.92, 0.85, 1)
+font_size = 56
+font_color = Color(1.0, 0.88, 0.45, 1)
+outline_size = 12
+outline_color = Color(0.12, 0.04, 0.02, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_subtitle"]
-font_size = 18
-font_color = Color(0.45, 0.4, 0.35, 1)
+font_size = 20
+font_color = Color(0.85, 0.75, 0.65, 1)
+outline_size = 6
+outline_color = Color(0.08, 0.05, 0.05, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_coin"]
 font_size = 20
-font_color = Color(0.9, 0.65, 0.1, 1)
-outline_size = 4
+font_color = Color(1.0, 0.85, 0.25, 1)
+outline_size = 6
 outline_color = Color(0.1, 0.08, 0.05, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
-bg_color = Color(0.2, 0.55, 0.25, 0.95)
+bg_color = Color(0.18, 0.15, 0.13, 0.96)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.6, 0.9, 0.5, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+border_width_bottom = 4
+border_color = Color(0.92, 0.78, 0.45, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.75)
+shadow_size = 4
+shadow_offset = Vector2(3, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+bg_color = Color(0.26, 0.22, 0.18, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 4
+border_color = Color(1.0, 0.92, 0.65, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_size = 6
+shadow_offset = Vector2(4, 6)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_secondary"]
-bg_color = Color(0.28, 0.25, 0.22, 0.9)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
+bg_color = Color(0.13, 0.12, 0.11, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
 border_width_bottom = 3
-border_color = Color(0.55, 0.5, 0.4, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+border_color = Color(0.62, 0.52, 0.42, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.65)
+shadow_size = 3
+shadow_offset = Vector2(2, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_sec_hover"]
+bg_color = Color(0.20, 0.18, 0.16, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.85, 0.75, 0.55, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.8)
+shadow_size = 4
+shadow_offset = Vector2(3, 4)
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -60,10 +98,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.94, 0.92, 0.86, 1)
+color = Color(0.05, 0.04, 0.06, 1)
 
 [node name="ParchmentBg" type="TextureRect" parent="."]
-modulate = Color(1, 1, 1, 0.55)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -124,7 +161,7 @@ horizontal_alignment = 1
 
 [node name="SubtitleLabel" type="Label" parent="TitleBox"]
 layout_mode = 2
-text = "Karalama Defterinde Hayatta Kalma Mücadelesi"
+text = "Karanlık Diyarlarda Hayatta Kalma Mücadelesi"
 label_settings = SubResource("LabelSettings_subtitle")
 horizontal_alignment = 1
 
@@ -138,29 +175,44 @@ anchor_bottom = 0.5
 offset_left = -160.0
 offset_top = -20.0
 offset_right = 160.0
-offset_bottom = 220.0
+offset_bottom = 240.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 18
+theme_override_constants/separation = 14
 alignment = 1
 
 [node name="PlayButton" type="Button" parent="VBoxContainer"]
-custom_minimum_size = Vector2(320, 56)
+custom_minimum_size = Vector2(320, 52)
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_hover")
 text = "OYNA"
 
 [node name="ShopButton" type="Button" parent="VBoxContainer"]
-custom_minimum_size = Vector2(320, 52)
+custom_minimum_size = Vector2(320, 48)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 19
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_secondary")
-text = "ATÖLYE (Power-Ups)"
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_sec_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_sec_hover")
+text = "ATÖLYE (Güçlendirmeler)"
+
+[node name="SettingsButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(320, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_secondary")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_sec_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_sec_hover")
+text = "AYARLAR"
 
 [node name="QuitButton" type="Button" parent="VBoxContainer"]
-custom_minimum_size = Vector2(320, 48)
+custom_minimum_size = Vector2(320, 44)
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_secondary")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_sec_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_sec_hover")
 text = "ÇIKIŞ"

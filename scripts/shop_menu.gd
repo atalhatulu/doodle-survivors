@@ -118,7 +118,7 @@ func _create_upgrade_card(stat_id: String, data: Dictionary, meta: Node) -> Pane
 		buy_btn.disabled = true
 		btn_style.bg_color = Color(0.5, 0.5, 0.5, 0.8)
 	else:
-		buy_btn.text = "GELİŞTİR (%d Ataş)" % cost
+		buy_btn.text = "GELİŞTİR (%d Altın)" % cost
 		if meta.total_coins >= cost:
 			btn_style.bg_color = Color(0.2, 0.55, 0.25, 0.95)
 			btn_style.border_color = Color(0.6, 0.9, 0.5, 1.0)

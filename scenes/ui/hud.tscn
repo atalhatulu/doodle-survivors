@@ -1,38 +1,119 @@
-[gd_scene load_steps=7 format=3 uid="uid://chud01234567"]
+[gd_scene load_steps=12 format=3 uid="uid://chud01234567"]
 
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_hud"]
-[ext_resource type="Texture2D" path="res://assets/sprites/pickups/coin_paperclip.png" id="2_coin_icon"]
+[ext_resource type="Texture2D" path="res://assets/sprites/pickups/gold_coin.png" id="2_coin_icon"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xp_bg"]
-bg_color = Color(0.1, 0.1, 0.12, 0.9)
-border_width_top = 2
-border_color = Color(0.05, 0.05, 0.05, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xp_fill"]
-bg_color = Color(0.98, 0.72, 0.12, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_speed_btn"]
-bg_color = Color(0.15, 0.14, 0.12, 0.85)
+bg_color = Color(0.08, 0.08, 0.1, 0.95)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.6, 0.55, 0.45, 1)
+border_color = Color(0.72, 0.55, 0.22, 0.85)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xp_fill"]
+bg_color = Color(0.95, 0.75, 0.15, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.9, 0.45, 0.9)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_speed_btn"]
+bg_color = Color(0.14, 0.12, 0.18, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72, 0.55, 0.25, 0.9)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 3
 
 [sub_resource type="LabelSettings" id="LabelSettings_doodle"]
 font_size = 20
+font_color = Color(0.96, 0.92, 0.84, 1)
 outline_size = 5
-outline_color = Color(0, 0, 0, 1)
+outline_color = Color(0.08, 0.04, 0.1, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_fps"]
 font_size = 18
 font_color = Color(0.4, 1, 0.5, 1)
 outline_size = 4
 outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dash_bg"]
+bg_color = Color(0.1, 0.1, 0.14, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.5, 0.42, 0.62, 0.85)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dash_fill"]
+bg_color = Color(0.25, 0.85, 0.95, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_frame"]
+bg_color = Color(0.12, 0.09, 0.14, 0.96)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.84, 0.68, 0.30, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.75)
+shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_bg"]
+bg_color = Color(0.06, 0.04, 0.07, 0.95)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_fill"]
+bg_color = Color(0.78, 0.12, 0.16, 1)
+border_width_top = 2
+border_width_bottom = 1
+border_color = Color(1, 0.48, 0.50, 0.85)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="LabelSettings" id="LabelSettings_hp_txt"]
+font_size = 13
+font_color = Color(1, 0.95, 0.88, 1)
+outline_size = 4
+outline_color = Color(0.12, 0.04, 0.06, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_coin_frame"]
+bg_color = Color(0.12, 0.1, 0.15, 0.88)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72, 0.55, 0.22, 0.85)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 3
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_hud")
@@ -44,14 +125,49 @@ anchor_right = 1.0
 offset_bottom = 60.0
 grow_horizontal = 2
 
-[node name="LevelLabel" type="Label" parent="TopContainer"]
+[node name="HealthContainer" type="Control" parent="TopContainer"]
 layout_mode = 1
-offset_left = 25.0
-offset_top = 18.0
-offset_right = 160.0
+offset_left = 22.0
+offset_top = 14.0
+offset_right = 212.0
 offset_bottom = 46.0
-text = "SEVİYE 1"
-label_settings = SubResource("LabelSettings_doodle")
+
+[node name="GothicFrame" type="Panel" parent="TopContainer/HealthContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hp_frame")
+
+[node name="HealthBar" type="ProgressBar" parent="TopContainer/HealthContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_hp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hp_fill")
+value = 100.0
+show_percentage = false
+
+[node name="HealthText" type="Label" parent="TopContainer/HealthContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "100 / 100"
+label_settings = SubResource("LabelSettings_hp_txt")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="TimerLabel" type="Label" parent="TopContainer"]
 layout_mode = 1
@@ -59,9 +175,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -60.0
-offset_top = 18.0
+offset_top = 16.0
 offset_right = 60.0
-offset_bottom = 46.0
+offset_bottom = 44.0
 grow_horizontal = 2
 text = "00:00"
 label_settings = SubResource("LabelSettings_doodle")
@@ -69,21 +185,36 @@ horizontal_alignment = 1
 
 [node name="CoinContainer" type="HBoxContainer" parent="TopContainer"]
 layout_mode = 1
-offset_left = 180.0
+offset_left = 225.0
 offset_top = 16.0
-offset_right = 320.0
-offset_bottom = 48.0
+offset_right = 355.0
+offset_bottom = 44.0
 theme_override_constants/separation = 6
 alignment = 0
 
-[node name="CoinIcon" type="TextureRect" parent="TopContainer/CoinContainer"]
-custom_minimum_size = Vector2(28, 28)
+[node name="CoinPanel" type="PanelContainer" parent="TopContainer/CoinContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_coin_frame")
+
+[node name="Margin" type="MarginContainer" parent="TopContainer/CoinContainer/CoinPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 2
+
+[node name="HBox" type="HBoxContainer" parent="TopContainer/CoinContainer/CoinPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="CoinIcon" type="TextureRect" parent="TopContainer/CoinContainer/CoinPanel/Margin/HBox"]
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 texture = ExtResource("2_coin_icon")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="CoinLabel" type="Label" parent="TopContainer/CoinContainer"]
+[node name="CoinLabel" type="Label" parent="TopContainer/CoinContainer/CoinPanel/Margin/HBox"]
 layout_mode = 2
 text = "0"
 label_settings = SubResource("LabelSettings_doodle")
@@ -93,26 +224,26 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -275.0
+offset_left = -260.0
 offset_top = 16.0
-offset_right = -160.0
-offset_bottom = 48.0
+offset_right = -150.0
+offset_bottom = 44.0
 grow_horizontal = 0
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("StyleBoxFlat_speed_btn")
 theme_override_styles/hover = SubResource("StyleBoxFlat_speed_btn")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_speed_btn")
-text = "HIZ: 1x (TAB)"
+text = "HIZ: 1x (T)"
 
 [node name="FPSLabel" type="Label" parent="TopContainer"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -140.0
-offset_top = 18.0
+offset_left = -135.0
+offset_top = 16.0
 offset_right = -25.0
-offset_bottom = 46.0
+offset_bottom = 44.0
 grow_horizontal = 0
 text = "FPS: 60"
 label_settings = SubResource("LabelSettings_fps")
@@ -124,7 +255,7 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -22.0
+offset_top = -24.0
 grow_horizontal = 2
 grow_vertical = 0
 
@@ -139,3 +270,71 @@ theme_override_styles/background = SubResource("StyleBoxFlat_xp_bg")
 theme_override_styles/fill = SubResource("StyleBoxFlat_xp_fill")
 value = 0.0
 show_percentage = false
+
+[node name="LevelLabel" type="Label" parent="BottomContainer/XPBar"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -11.0
+offset_right = 160.0
+offset_bottom = 11.0
+grow_vertical = 2
+text = "SEVİYE 1"
+label_settings = SubResource("LabelSettings_hp_txt")
+vertical_alignment = 1
+
+[node name="XPText" type="Label" parent="BottomContainer/XPBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -11.0
+offset_right = 60.0
+offset_bottom = 11.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "0 / 25 XP"
+label_settings = SubResource("LabelSettings_hp_txt")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DashContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -310.0
+offset_top = -60.0
+offset_right = -20.0
+offset_bottom = -32.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/separation = 8
+alignment = 2
+
+[node name="DashTitle" type="Label" parent="DashContainer"]
+layout_mode = 2
+text = "[BOŞLUK] ATILMA:"
+label_settings = SubResource("LabelSettings_fps")
+
+[node name="DashBar" type="ProgressBar" parent="DashContainer"]
+custom_minimum_size = Vector2(90, 16)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_dash_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_dash_fill")
+value = 100.0
+show_percentage = false
+
+[node name="DashStatus" type="Label" parent="DashContainer"]
+custom_minimum_size = Vector2(55, 0)
+layout_mode = 2
+text = "HAZIR"
+label_settings = SubResource("LabelSettings_fps")

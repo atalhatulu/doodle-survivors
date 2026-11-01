@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/weapons/proj_dagger.png" id="2_tex"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dag"]
-radius = 6.0
-height = 32.0
+radius = 4.0
+height = 28.0
 
 [node name="BulletDagger" type="Area2D"]
 script = ExtResource("1_bullet")
@@ -13,7 +13,7 @@ speed = 850.0
 damage = 20.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.18, 0.18)
+scale = Vector2(0.10, 0.10)
 texture = ExtResource("2_tex")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cevohellfire01"]
+
+[ext_resource type="Script" path="res://scripts/weapon_evo_hellfire_storm.gd" id="1_hellfire"]
+
+[node name="WeaponEvoHellfireStorm" type="Node2D"]
+z_index = -1
+script = ExtResource("1_hellfire")

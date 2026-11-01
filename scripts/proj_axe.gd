@@ -13,6 +13,7 @@ var hit_enemies: Dictionary = {}
 var is_crit: bool = false
 var total_hits: int = 0
 var distance_traveled: float = 0.0
+var is_fading: bool = false
 
 @onready var sprite: Sprite2D = $Sprite2D
 
@@ -47,18 +48,22 @@ func _physics_process(delta: float) -> void:
 		if hit_enemies[id] <= 0.0:
 			hit_enemies.erase(id)
 			
-	if distance_traveled >= max_distance:
+	if distance_traveled >= max_distance and not is_fading:
+		is_fading = true
+		set_physics_process(false)
 		var tw := create_tween()
 		tw.tween_property(self, "modulate:a", 0.0, 0.12)
 		tw.tween_callback(queue_free)
 
 func _on_body_entered(body: Node2D) -> void:
 	if body and body.has_method("take_damage"):
+		if "is_dead" in body and body.is_dead:
+			return
 		var id := body.get_instance_id()
 		if not hit_enemies.has(id):
 			hit_enemies[id] = 0.35
 			total_hits += 1
-			body.take_damage(damage, is_crit, global_position)
+			body.take_damage(damage, is_crit, global_position, "weapon_axe")
 			
 			if total_hits >= max_hits:
 				set_deferred("monitoring", false)

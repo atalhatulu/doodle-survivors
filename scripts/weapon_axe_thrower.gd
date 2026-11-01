@@ -26,12 +26,7 @@ func upgrade_level(new_lvl: int) -> void:
 	damage = base_damage * (1.0 + (current_level - 1) * 0.40)
 	fire_rate = maxf(0.5, base_fire_rate * (1.0 - (current_level - 1) * 0.11))
 	
-	if current_level >= 3:
-		axes_count = 2
-	if current_level >= 5:
-		axes_count = 3
 	if current_level >= 7:
-		axes_count = 4
 		damage *= 1.30 # 7. seviye zirve bonusu
 		
 	if sprite:
@@ -63,6 +58,8 @@ func _throw_axe() -> void:
 	var dmg_mult: float = 1.0
 	var area_scale: float = 1.0
 	var crit_prob: float = 0.05
+	var extra_proj: int = 0
+	var speed_mult: float = 1.0
 	if player:
 		if "damage_multiplier" in player:
 			dmg_mult = player.damage_multiplier
@@ -70,6 +67,10 @@ func _throw_axe() -> void:
 			area_scale = player.area_mult
 		if "crit_chance" in player:
 			crit_prob = player.crit_chance
+		if "extra_projectiles" in player:
+			extra_proj = player.extra_projectiles
+		if "projectile_speed_mult" in player:
+			speed_mult = player.projectile_speed_mult
 			
 	var is_crit: bool = randf() < crit_prob
 	var final_damage: float = damage * dmg_mult * (2.0 if is_crit else 1.0)
@@ -79,7 +80,7 @@ func _throw_axe() -> void:
 	
 	# Birden fazla balta varsa koni şeklinde (fan spread) dağıt
 	var spread_angle_deg: float = 18.0
-	var count: int = maxi(1, axes_count)
+	var count: int = maxi(1, axes_count + extra_proj)
 	var start_offset: float = - (float(count - 1) * 0.5) * spread_angle_deg
 	
 	for i in range(count):
@@ -93,9 +94,10 @@ func _throw_axe() -> void:
 		if "scale" in axe:
 			axe.scale = axe.scale * area_scale
 			
-		get_tree().current_scene.add_child(axe)
+		var target_node: Node = get_tree().current_scene if get_tree().current_scene else get_tree().root
+		target_node.add_child(axe)
 		axe.global_position = global_position
-		axe.launch(fire_dir, 460.0)
+		axe.launch(fire_dir, 460.0 * speed_mult)
 		
 	var audio = get_node_or_null("/root/AudioManager")
 	if audio:
@@ -111,18 +113,19 @@ func _get_target_direction() -> Vector2:
 	var enemies := get_tree().get_nodes_in_group("enemies")
 	var closest_dist: float = 650.0
 	var closest_enemy: Node2D = null
+	var center_pos := player.global_position if (player and is_instance_valid(player)) else global_position
 	
 	for enemy in enemies:
 		if enemy is Node2D and is_instance_valid(enemy):
 			if "is_dead" in enemy and enemy.is_dead:
 				continue
-			var dist: float = global_position.distance_to(enemy.global_position)
+			var dist: float = center_pos.distance_to(enemy.global_position)
 			if dist < closest_dist:
 				closest_dist = dist
 				closest_enemy = enemy
 				
 	if closest_enemy:
-		return (closest_enemy.global_position - global_position).normalized()
+		return (closest_enemy.global_position - center_pos).normalized()
 		
 	# Yakında düşman yoksa oyuncunun hareket ettiği yöne at
 	if player and "velocity" in player and player.velocity.length_squared() > 10.0:

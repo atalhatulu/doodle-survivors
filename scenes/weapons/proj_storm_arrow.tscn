@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cprojstormarrow01"]
+
+[ext_resource type="Script" path="res://scripts/proj_storm_arrow.gd" id="1_sarrow"]
+[ext_resource type="Texture2D" path="res://assets/sprites/weapons/proj_storm_arrow.png" id="2_tex"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sarrow"]
+radius = 5.0
+height = 36.0
+
+[node name="ProjStormArrow" type="Area2D"]
+script = ExtResource("1_sarrow")
+speed = 880.0
+damage = 42.0
+max_pierce = 8
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.12, 0.12)
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_sarrow")

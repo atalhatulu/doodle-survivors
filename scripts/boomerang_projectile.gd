@@ -42,10 +42,12 @@ func _physics_process(delta: float) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body and body.has_method("take_damage"):
+		if "is_dead" in body and body.is_dead:
+			return
 		var id := body.get_instance_id()
 		if not hit_enemies.has(id):
 			hit_enemies[id] = true
 			leg_hits += 1
-			body.take_damage(damage, is_crit)
+			body.take_damage(damage, is_crit, global_position, "weapon_boomerang")
 			if returning and leg_hits >= max_hits_per_leg:
 				queue_free()

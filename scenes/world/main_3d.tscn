@@ -1,0 +1,118 @@
+[gd_scene format=3 uid="uid://cydaa8jnhjuuq"]
+
+[ext_resource type="Script" uid="uid://gj6l5002r7is" path="res://scripts/main_3d.gd" id="1_main3d"]
+[ext_resource type="Texture2D" uid="uid://0lhlx54r6tu" path="res://assets/sprites/terrain/tile_lush_grass.png" id="2_grass"]
+[ext_resource type="Texture2D" uid="uid://dn7y8f1yik2lv" path="res://assets/sprites/terrain/tile_dark_earth.png" id="3_dirt"]
+[ext_resource type="Texture2D" uid="uid://b80torishkkkt" path="res://assets/sprites/terrain/tile_seamless_dirt.png" id="4_rock"]
+[ext_resource type="Shader" uid="uid://dnyw5vtl0jrue" path="res://scenes/world/ground_terrain.gdshader" id="5_shader"]
+[ext_resource type="PackedScene" uid="uid://cplayer3d01" path="res://scenes/player/player_3d.tscn" id="6_player3d"]
+[ext_resource type="PackedScene" uid="uid://chud01234567" path="res://scenes/ui/hud.tscn" id="7_hud"]
+[ext_resource type="PackedScene" uid="uid://clevelup0123" path="res://scenes/ui/level_up_menu.tscn" id="8_levelup"]
+[ext_resource type="PackedScene" uid="uid://cinvmenu0123" path="res://scenes/ui/inventory_menu.tscn" id="9_inv"]
+[ext_resource type="PackedScene" uid="uid://js4unemp03o7" path="res://scenes/ui/game_over_menu.tscn" id="10_over"]
+[ext_resource type="Script" uid="uid://dl7goa2pg2nj3" path="res://scripts/enemy_spawner_3d.gd" id="11_spawner3d"]
+[ext_resource type="Script" path="res://scripts/chunk_manager_3d.gd" id="12_chunk3d"]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/environment/fantasy_sky_panorama.png" id="13_sky_tex"]
+[ext_resource type="Texture2D" path="res://assets/sprites/environment/distant_forest_belt.png" id="14_forest_belt"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_forest"]
+panorama = ExtResource("13_sky_tex")
+
+[sub_resource type="Sky" id="Sky_forest"]
+sky_material = SubResource("PanoramaSkyMaterial_forest")
+
+[sub_resource type="Environment" id="Environment_forest"]
+background_mode = 2
+sky = SubResource("Sky_forest")
+ambient_light_source = 3
+ambient_light_color = Color(0.72, 0.82, 0.78, 1)
+ambient_light_energy = 1.25
+ambient_light_sky_contribution = 0.80
+tonemap_mode = 3
+tonemap_exposure = 1.20
+tonemap_white = 1.10
+glow_enabled = true
+glow_intensity = 0.50
+glow_bloom = 0.18
+glow_blend_mode = 0
+glow_hdr_threshold = 0.88
+ssao_enabled = true
+ssao_radius = 1.6
+ssao_intensity = 1.8
+ssao_power = 1.5
+ssao_detail = 0.5
+ssao_horizon = 0.06
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.70, 0.82, 0.90, 1)
+fog_density = 0.22
+fog_depth_begin = 70.0
+fog_depth_end = 140.0
+fog_aerial_perspective = 0.35
+fog_sky_affect = 0.0
+volumetric_fog_enabled = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ground"]
+render_priority = 0
+shader = ExtResource("5_shader")
+shader_parameter/texture_grass = ExtResource("2_grass")
+shader_parameter/texture_dirt = ExtResource("3_dirt")
+shader_parameter/texture_rock = ExtResource("4_rock")
+shader_parameter/grass_tint = Color(0.55, 0.65, 0.42, 1)
+shader_parameter/dirt_tint = Color(0.72, 0.58, 0.42, 1)
+shader_parameter/path_tint = Color(0.75, 0.62, 0.46, 1)
+shader_parameter/uv_scale_grass = 38.0
+shader_parameter/uv_scale_dirt = 30.0
+shader_parameter/uv_scale_rock = 28.0
+shader_parameter/roughness_val = 0.88
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ground"]
+material = SubResource("ShaderMaterial_ground")
+size = Vector2(400, 400)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_ground"]
+
+[node name="Main3D" type="Node3D" unique_id=1390752200]
+script = ExtResource("1_main3d")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=750752112]
+environment = SubResource("Environment_forest")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1498806213]
+transform = Transform3D(0.788011, -0.422618, 0.448007, 0, 0.727792, 0.685799, -0.615661, -0.540417, 0.573507, 24, 38, 22)
+light_color = Color(1.0, 0.94, 0.82, 1)
+light_energy = 1.45
+light_volumetric_fog_energy = 3.6
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_blur = 2.6
+shadow_opacity = 0.58
+directional_shadow_max_distance = 100.0
+
+[node name="ChunkManager3D" type="Node3D" parent="." unique_id=1270004621]
+script = ExtResource("12_chunk3d")
+
+[node name="InfiniteGroundCollision" type="StaticBody3D" parent="."]
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InfiniteGroundCollision"]
+shape = SubResource("WorldBoundaryShape3D_ground")
+
+[node name="Player3D" parent="." unique_id=565235508 instance=ExtResource("6_player3d")]
+
+[node name="EnemySpawner3D" type="Node3D" parent="." unique_id=1186482384]
+script = ExtResource("11_spawner3d")
+
+[node name="Obstacles3D" type="Node3D" parent="." unique_id=1394325798]
+
+[node name="Pickups3D" type="Node3D" parent="." unique_id=817288398]
+
+[node name="HUD" parent="." unique_id=756123363 instance=ExtResource("7_hud")]
+
+[node name="LevelUpMenu" parent="." unique_id=1880152022 instance=ExtResource("8_levelup")]
+
+[node name="InventoryMenu" parent="." unique_id=1732013843 instance=ExtResource("9_inv")]
+
+[node name="GameOverMenu" parent="." unique_id=331044015 instance=ExtResource("10_over")]

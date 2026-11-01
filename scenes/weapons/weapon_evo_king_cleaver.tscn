@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cevokingcleaver01"]
+
+[ext_resource type="Script" path="res://scripts/weapon_evo_king_cleaver.gd" id="1_cleaver"]
+[ext_resource type="Texture2D" path="res://assets/sprites/weapons/proj_king_cleaver.png" id="2_cleaver"]
+
+[node name="WeaponEvoKingCleaver" type="Node2D"]
+script = ExtResource("1_cleaver")
+
+[node name="Blade1" type="Sprite2D" parent="."]
+texture = ExtResource("2_cleaver")
+
+[node name="Blade2" type="Sprite2D" parent="."]
+texture = ExtResource("2_cleaver")

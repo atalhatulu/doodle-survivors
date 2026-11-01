@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgrassclump3d01"]
+
+[ext_resource type="Script" path="res://scripts/obstacle_transparency_3d.gd" id="1_obs"]
+[ext_resource type="Texture2D" path="res://assets/sprites/environment/env_grass_tuft.png" id="2_tex"]
+
+[node name="GrassClump3D" type="StaticBody3D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_obs")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+pixel_size = 0.0065
+billboard = 2
+shaded = false
+double_sided = true
+alpha_cut = 1
+texture = ExtResource("2_tex")

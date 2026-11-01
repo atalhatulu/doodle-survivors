@@ -44,26 +44,36 @@ func _process(delta: float) -> void:
 
 func _throw_potion() -> void:
 	var enemies := get_tree().get_nodes_in_group("enemies")
-	var target_pos := global_position + Vector2.RIGHT.rotated(randf_range(0, TAU)) * 140.0
+	var extra_proj: int = player.extra_projectiles if player and "extra_projectiles" in player else 0
+	var total_potions: int = 1 + extra_proj
 	
-	if enemies.size() > 0:
-		var nearest: Node2D = null
-		var nearest_dist := range_radius
-		for e in enemies:
-			if is_instance_valid(e):
-				var d := global_position.distance_to(e.global_position)
-				if d < nearest_dist:
-					nearest_dist = d
-					nearest = e
-		if nearest:
-			target_pos = nearest.global_position
+	var valid_enemies: Array[Node2D] = []
+	var center_pos := player.global_position if (player and is_instance_valid(player)) else global_position
+	for e in enemies:
+		if is_instance_valid(e) and not ("is_dead" in e and e.is_dead) and center_pos.distance_to(e.global_position) <= range_radius:
+			valid_enemies.append(e)
 			
-	_spawn_puddle(target_pos)
+	valid_enemies.sort_custom(func(a, b):
+		return center_pos.distance_to(a.global_position) < center_pos.distance_to(b.global_position)
+	)
+	
+	for i in range(total_potions):
+		var target_pos := Vector2.ZERO
+		if i < valid_enemies.size():
+			target_pos = valid_enemies[i].global_position + Vector2(randf_range(-20, 20), randf_range(-20, 20))
+		elif valid_enemies.size() > 0:
+			var ref_pos: Vector2 = valid_enemies.pick_random().global_position
+			target_pos = ref_pos + Vector2.RIGHT.rotated(randf() * TAU) * randf_range(30, 80)
+		else:
+			target_pos = global_position + Vector2.RIGHT.rotated(randf() * TAU) * randf_range(60, 160)
+			
+		_spawn_puddle(target_pos)
 
 func _spawn_puddle(pos: Vector2) -> void:
 	var dmg_mult: float = 1.0
 	var area_scale: float = 1.0
 	var crit_prob: float = 0.05
+	var dur_mult: float = 1.0
 	if player:
 		if "damage_multiplier" in player:
 			dmg_mult = player.damage_multiplier
@@ -71,12 +81,16 @@ func _spawn_puddle(pos: Vector2) -> void:
 			area_scale = player.area_mult
 		if "crit_chance" in player:
 			crit_prob = player.crit_chance
+		if "duration_mult" in player:
+			dur_mult = player.duration_mult
 			
 	var is_crit: bool = randf() < crit_prob
 	var final_damage: float = damage * dmg_mult * (2.0 if is_crit else 1.0)
 	var final_radius: float = puddle_radius * area_scale
+	var final_duration: float = puddle_duration * dur_mult
 
 	var puddle := Area2D.new()
+	puddle.z_index = -1
 	puddle.global_position = pos
 	puddle.collision_layer = 0
 	puddle.collision_mask = 1
@@ -88,28 +102,52 @@ func _spawn_puddle(pos: Vector2) -> void:
 	puddle.add_child(col)
 	
 	var spr := Sprite2D.new()
-	spr.texture = preload("res://assets/sprites/weapons/weapon_potion.png")
-	spr.scale = Vector2(0.25, 0.25) * area_scale
+	spr.texture = preload("res://assets/sprites/weapons/proj_ink_splash.png")
+	spr.scale = Vector2(0.2, 0.2) * area_scale
+	spr.modulate = Color(1.2, 0.45, 1.4, 0.85) # Büyülü zehirli mor gölet
 	puddle.add_child(spr)
 	
-	get_tree().current_scene.add_child(puddle)
+	var target_parent: Node = get_tree().current_scene if get_tree().current_scene else get_tree().root
+	target_parent.add_child(puddle)
 	
-	# Alan hasarı periyodik
 	var tween := puddle.create_tween()
-	spr.modulate = Color(1.5, 0.6, 2.0, 0.9)
-	tween.tween_property(spr, "scale", Vector2(0.4, 0.4) * area_scale, 0.25)
-	tween.tween_property(spr, "modulate:a", 0.0, puddle_duration)
+	tween.tween_property(spr, "scale", Vector2(0.48, 0.48) * area_scale, 0.2).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.tween_property(spr, "modulate:a", 0.0, maxf(0.5, final_duration - 0.2))
 	tween.tween_callback(puddle.queue_free)
 	
-	# Kısa bir gecikmeyle patlama hasarı uygula
-	var p_timer := get_tree().create_timer(0.05)
-	p_timer.timeout.connect(func():
-		if is_instance_valid(puddle):
-			var bodies := puddle.get_overlapping_bodies()
-			for b in bodies:
-				if b and b.has_method("take_damage"):
-					b.take_damage(final_damage, is_crit)
-					var p := get_tree().get_first_node_in_group("player")
-					if p and p.has_method("add_camera_shake"):
-						p.add_camera_shake(2.0 if is_crit else 1.0)
+	var audio = get_node_or_null("/root/AudioManager")
+	if audio:
+		audio.play_sfx("potion_splash", 0.12)
+		
+	# İlk darbe hasarı
+	var initial_timer := get_tree().create_timer(0.05)
+	initial_timer.timeout.connect(func():
+		_puddle_tick(puddle, final_damage * 0.75, is_crit)
 	)
+	
+	# Yerde kaldığı süre boyunca periyodik hasar (DoT)
+	var tick_interval: float = 0.4
+	var elapsed_ticks: float = 0.4
+	while elapsed_ticks < final_duration:
+		var t := get_tree().create_timer(elapsed_ticks)
+		t.timeout.connect(func():
+			if is_instance_valid(puddle):
+				_puddle_tick(puddle, final_damage * 0.40, is_crit)
+		)
+		elapsed_ticks += tick_interval
+
+func _puddle_tick(puddle: Area2D, tick_damage: float, is_crit: bool) -> void:
+	if not is_instance_valid(puddle):
+		return
+	var bodies := puddle.get_overlapping_bodies()
+	for b in bodies:
+		if b and is_instance_valid(b) and b.has_method("take_damage"):
+			if "is_dead" in b and b.is_dead:
+				continue
+			if player and player.has_method("record_weapon_damage"):
+				player.record_weapon_damage("weapon_potion", tick_damage)
+			b.take_damage(tick_damage, is_crit, puddle.global_position, "weapon_potion")
+			if b.has_method("apply_status"):
+				b.apply_status("poison", 4.0, 12.0)
+			if is_crit and player and player.has_method("add_camera_shake"):
+				player.add_camera_shake(1.2)

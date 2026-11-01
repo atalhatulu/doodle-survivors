@@ -1,10 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://clevelup0123"]
+[gd_scene load_steps=10 format=3 uid="uid://clevelup0123"]
 
 [ext_resource type="Script" path="res://scripts/level_up_menu.gd" id="1_levelup"]
 [ext_resource type="Texture2D" path="res://assets/sprites/ui/levelup_header.png" id="2_head"]
-[ext_resource type="Texture2D" path="res://assets/sprites/ui/parchment_clean.png" id="3_parch"]
-[ext_resource type="Texture2D" path="res://assets/sprites/ui/card_passed_stack.png" id="4_left"]
-[ext_resource type="Texture2D" path="res://assets/sprites/ui/card_locked_stack.png" id="5_right"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/ui_card_obsidian.png" id="3_parch"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_sec"]
 bg_color = Color(0.18, 0.45, 0.22, 0.95)
@@ -18,7 +16,43 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_gec"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_sec_hover"]
+bg_color = Color(0.25, 0.58, 0.3, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 1, 0.65, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_reroll"]
+bg_color = Color(0.2, 0.32, 0.55, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 0.75, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_reroll_disabled"]
+bg_color = Color(0.25, 0.25, 0.28, 0.6)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45, 0.45, 0.45, 0.5)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_skip"]
 bg_color = Color(0.55, 0.2, 0.18, 0.95)
 border_width_left = 2
 border_width_top = 2
@@ -30,8 +64,21 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_skip_hover"]
+bg_color = Color(0.68, 0.26, 0.24, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.75, 0.65, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
 [node name="LevelUpMenu" type="CanvasLayer"]
 process_mode = 3
+layer = 15
 script = ExtResource("1_levelup")
 
 [node name="Dimmer" type="ColorRect" parent="."]
@@ -40,7 +87,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.45)
+color = Color(0.02, 0.03, 0.05, 0.82)
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchors_preset = 15
@@ -48,155 +95,341 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="RootControl" type="Control" parent="CenterContainer"]
-custom_minimum_size = Vector2(850, 540)
+custom_minimum_size = Vector2(1040, 620)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="HeaderTexture" type="TextureRect" parent="CenterContainer/RootControl"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -230.0
-offset_top = 10.0
-offset_right = 230.0
-offset_bottom = 105.0
+offset_left = -232.0
+offset_top = 8.0
+offset_right = 232.0
+offset_bottom = 103.0
 grow_horizontal = 2
+mouse_filter = 2
 texture = ExtResource("2_head")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="LeftStack" type="TextureRect" parent="CenterContainer/RootControl"]
+[node name="CardsContainer" type="HBoxContainer" parent="CenterContainer/RootControl"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -260.0
-offset_top = -170.0
-offset_right = -140.0
-offset_bottom = 175.0
+offset_left = -480.0
+offset_top = -185.0
+offset_right = 480.0
+offset_bottom = 225.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_left")
-expand_mode = 1
-stretch_mode = 5
+mouse_filter = 2
+theme_override_constants/separation = 24
+alignment = 1
 
-[node name="RightStack" type="TextureRect" parent="CenterContainer/RootControl"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 140.0
-offset_top = -160.0
-offset_right = 260.0
-offset_bottom = 165.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("5_right")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="ActiveParchment" type="TextureRect" parent="CenterContainer/RootControl"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -165.0
-offset_top = -215.0
-offset_right = 165.0
-offset_bottom = 215.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Card0" type="TextureRect" parent="CenterContainer/RootControl/CardsContainer"]
+custom_minimum_size = Vector2(300, 410)
+layout_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
 texture = ExtResource("3_parch")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="CardContent" type="VBoxContainer" parent="CenterContainer/RootControl/ActiveParchment"]
+[node name="CardContent" type="VBoxContainer" parent="CenterContainer/RootControl/CardsContainer/Card0"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 30.0
-offset_top = 25.0
-offset_right = -30.0
-offset_bottom = -25.0
+offset_left = 24.0
+offset_top = 22.0
+offset_right = -24.0
+offset_bottom = -24.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 10
+mouse_filter = 2
+theme_override_constants/separation = 6
 alignment = 1
 
-[node name="StepIndicator" type="Label" parent="CenterContainer/RootControl/ActiveParchment/CardContent"]
+[node name="KeyBadge" type="Label" parent="CenterContainer/RootControl/CardsContainer/Card0/CardContent"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.2, 0.15, 0.1, 1)
-theme_override_font_sizes/font_size = 20
-text = "2. ŞANS"
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.65, 0.42, 0.12, 1)
+theme_override_font_sizes/font_size = 17
+text = "[ 1 ]"
 horizontal_alignment = 1
 
-[node name="IconContainer" type="CenterContainer" parent="CenterContainer/RootControl/ActiveParchment/CardContent"]
+[node name="IconContainer" type="CenterContainer" parent="CenterContainer/RootControl/CardsContainer/Card0/CardContent"]
 layout_mode = 2
+mouse_filter = 2
 
-[node name="IconRect" type="TextureRect" parent="CenterContainer/RootControl/ActiveParchment/CardContent/IconContainer"]
-custom_minimum_size = Vector2(90, 90)
+[node name="IconRect" type="TextureRect" parent="CenterContainer/RootControl/CardsContainer/Card0/CardContent/IconContainer"]
+custom_minimum_size = Vector2(76, 76)
 layout_mode = 2
+mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="TitleLabel" type="Label" parent="CenterContainer/RootControl/ActiveParchment/CardContent"]
+[node name="TitleLabel" type="Label" parent="CenterContainer/RootControl/CardsContainer/Card0/CardContent"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.15, 0.1, 0.05, 1)
+mouse_filter = 2
+theme_override_colors/font_color = Color(1.0, 0.95, 0.85, 1)
+theme_override_colors/font_outline_color = Color(0.0, 0.0, 0.0, 1)
+theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 20
-text = "Büyüteç"
+text = "Silah Adı"
 horizontal_alignment = 1
 
-[node name="BadgeLabel" type="Label" parent="CenterContainer/RootControl/ActiveParchment/CardContent"]
+[node name="BadgeLabel" type="Label" parent="CenterContainer/RootControl/CardsContainer/Card0/CardContent"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.2, 0.45, 0.25, 1)
-theme_override_font_sizes/font_size = 13
-text = "[PASİF ÖZELLİK]"
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1.0, 1)
+theme_override_colors/font_outline_color = Color(0.0, 0.0, 0.0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "[YENİ SİLAH]"
 horizontal_alignment = 1
 
-[node name="DescLabel" type="Label" parent="CenterContainer/RootControl/ActiveParchment/CardContent"]
+[node name="DescLabel" type="Label" parent="CenterContainer/RootControl/CardsContainer/Card0/CardContent"]
+custom_minimum_size = Vector2(0, 78)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.25, 0.2, 0.15, 1)
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0.0, 0.0, 0.0, 1)
+theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 13
-text = "Silahların savurma ve mermi alanını %20 büyütür."
+text = "Açıklama metni buraya gelecek."
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="ButtonsContainer" type="HBoxContainer" parent="CenterContainer/RootControl"]
+[node name="Spacer" type="Control" parent="CenterContainer/RootControl/CardsContainer/Card0/CardContent"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="SelectButton" type="Button" parent="CenterContainer/RootControl/CardsContainer/Card0/CardContent"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_sec")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_sec_hover")
+text = "SEÇ [1]"
+
+[node name="Card1" type="TextureRect" parent="CenterContainer/RootControl/CardsContainer"]
+custom_minimum_size = Vector2(300, 410)
+layout_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+texture = ExtResource("3_parch")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CardContent" type="VBoxContainer" parent="CenterContainer/RootControl/CardsContainer/Card1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 22.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="KeyBadge" type="Label" parent="CenterContainer/RootControl/CardsContainer/Card1/CardContent"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.65, 0.42, 0.12, 1)
+theme_override_font_sizes/font_size = 17
+text = "[ 2 ]"
+horizontal_alignment = 1
+
+[node name="IconContainer" type="CenterContainer" parent="CenterContainer/RootControl/CardsContainer/Card1/CardContent"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="IconRect" type="TextureRect" parent="CenterContainer/RootControl/CardsContainer/Card1/CardContent/IconContainer"]
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/RootControl/CardsContainer/Card1/CardContent"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1.0, 0.95, 0.85, 1)
+theme_override_colors/font_outline_color = Color(0.0, 0.0, 0.0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 20
+text = "Silah Adı"
+horizontal_alignment = 1
+
+[node name="BadgeLabel" type="Label" parent="CenterContainer/RootControl/CardsContainer/Card1/CardContent"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1.0, 1)
+theme_override_colors/font_outline_color = Color(0.0, 0.0, 0.0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "[YENİ SİLAH]"
+horizontal_alignment = 1
+
+[node name="DescLabel" type="Label" parent="CenterContainer/RootControl/CardsContainer/Card1/CardContent"]
+custom_minimum_size = Vector2(0, 78)
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0.0, 0.0, 0.0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 13
+text = "Açıklama metni buraya gelecek."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Spacer" type="Control" parent="CenterContainer/RootControl/CardsContainer/Card1/CardContent"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="SelectButton" type="Button" parent="CenterContainer/RootControl/CardsContainer/Card1/CardContent"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_sec")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_sec_hover")
+text = "SEÇ [2]"
+
+[node name="Card2" type="TextureRect" parent="CenterContainer/RootControl/CardsContainer"]
+custom_minimum_size = Vector2(300, 410)
+layout_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+texture = ExtResource("3_parch")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CardContent" type="VBoxContainer" parent="CenterContainer/RootControl/CardsContainer/Card2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 22.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="KeyBadge" type="Label" parent="CenterContainer/RootControl/CardsContainer/Card2/CardContent"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.65, 0.42, 0.12, 1)
+theme_override_font_sizes/font_size = 17
+text = "[ 3 ]"
+horizontal_alignment = 1
+
+[node name="IconContainer" type="CenterContainer" parent="CenterContainer/RootControl/CardsContainer/Card2/CardContent"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="IconRect" type="TextureRect" parent="CenterContainer/RootControl/CardsContainer/Card2/CardContent/IconContainer"]
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/RootControl/CardsContainer/Card2/CardContent"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1.0, 0.95, 0.85, 1)
+theme_override_colors/font_outline_color = Color(0.0, 0.0, 0.0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 20
+text = "Silah Adı"
+horizontal_alignment = 1
+
+[node name="BadgeLabel" type="Label" parent="CenterContainer/RootControl/CardsContainer/Card2/CardContent"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1.0, 1)
+theme_override_colors/font_outline_color = Color(0.0, 0.0, 0.0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "[YENİ SİLAH]"
+horizontal_alignment = 1
+
+[node name="DescLabel" type="Label" parent="CenterContainer/RootControl/CardsContainer/Card2/CardContent"]
+custom_minimum_size = Vector2(0, 78)
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0.0, 0.0, 0.0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 13
+text = "Açıklama metni buraya gelecek."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Spacer" type="Control" parent="CenterContainer/RootControl/CardsContainer/Card2/CardContent"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="SelectButton" type="Button" parent="CenterContainer/RootControl/CardsContainer/Card2/CardContent"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_sec")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_sec_hover")
+text = "SEÇ [3]"
+
+[node name="BottomBar" type="HBoxContainer" parent="CenterContainer/RootControl"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -160.0
-offset_top = -65.0
-offset_right = 160.0
-offset_bottom = -25.0
+offset_left = -280.0
+offset_top = -68.0
+offset_right = 280.0
+offset_bottom = -28.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_constants/separation = 25
+mouse_filter = 2
+theme_override_constants/separation = 30
 alignment = 1
 
-[node name="AcceptButton" type="Button" parent="CenterContainer/RootControl/ButtonsContainer"]
-custom_minimum_size = Vector2(130, 40)
+[node name="RerollButton" type="Button" parent="CenterContainer/RootControl/BottomBar"]
+custom_minimum_size = Vector2(210, 40)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_btn_sec")
-text = "SEÇ"
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_reroll")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_btn_reroll_disabled")
+text = "YENİDEN ÇEK (2 Kaldı) [R]"
 
-[node name="SkipButton" type="Button" parent="CenterContainer/RootControl/ButtonsContainer"]
-custom_minimum_size = Vector2(130, 40)
+[node name="SkipButton" type="Button" parent="CenterContainer/RootControl/BottomBar"]
+custom_minimum_size = Vector2(230, 40)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_btn_gec")
-text = "GEÇ"
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_skip")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_skip_hover")
+text = "PAS GEÇ (+%25 XP) [BOŞLUK]"
 
 [node name="HintLabel" type="Label" parent="CenterContainer/RootControl"]
 layout_mode = 1
@@ -205,13 +438,13 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -150.0
-offset_top = -18.0
-offset_right = 150.0
-offset_bottom = 2.0
+offset_left = -300.0
+offset_top = -22.0
+offset_right = 300.0
+offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 0.8)
+theme_override_colors/font_color = Color(0.85, 0.85, 0.85, 0.8)
 theme_override_font_sizes/font_size = 12
-text = "Seçmek veya sonrakine geçmek için butonlara tıkla!"
+text = "1, 2, 3 ile seç • R ile yenile • Boşluk ile pas geç"
 horizontal_alignment = 1
